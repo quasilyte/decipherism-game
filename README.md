@@ -11,7 +11,7 @@ The key features are:
 * A stylish in-game manual
 * Immersive interface
 
-This game natively works on Windows, Linux and in browsers (wasm build). You can download the native binary or play it in browser at itch.io.
+This game natively works on Windows, Linux and in browsers (wasm build). You can download the native binary or play it in browser at [itch.io](https://quasilyte.itch.io/decipherism).
 
 ## Game Development Details
 
