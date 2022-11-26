@@ -27,7 +27,7 @@ but since it's a requirement to create a separate per-game repository, here we a
 ## Lincense and Credits
 
 Everything is licensed under the MIT license, unless there is an entry in CREDITS for that asset.
-If there is an entry in CREDITS file, it overrides the default MIT licensing.
+If there is an entry in [CREDITS](CREDITS) file, it overrides the default MIT licensing.
 
 The game itself doesn't have a credits screen, but all places where you can download this
-game should include a supplementary CREDITS file.
+game should include a supplementary CREDITS information.
