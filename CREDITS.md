@@ -4,7 +4,7 @@
 
 * https://www.dafont.com/sector-017.font by Neoqueto
 * https://www.dafont.com/electronic-highway-sign.font by Ash Pikachu Font
-* https://www.dafont.com/tidy-hand.font Sean Johnson
+* https://www.dafont.com/tidy-hand.font by Sean Johnson
 
 ## Sound effects
 
