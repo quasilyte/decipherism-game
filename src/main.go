@@ -19,6 +19,7 @@ const (
 	AudioNone resource.AudioID = iota
 	AudioDecodingSuccess
 	AudioSecretUnlocked
+	AudioCollision
 	AudioDecipherMusic
 )
 
@@ -49,6 +50,7 @@ const (
 	ImageManualFullCompletionBonus
 	ImageManualShapes
 	ImageManualScopes
+	ImageManualOutputCollision
 	ImageManualOptimizedDecoding
 	ImageManualNegation
 	ImageManualTranspositionCiphers
@@ -201,6 +203,7 @@ func main() {
 	audioResources := map[resource.AudioID]resource.Audio{
 		AudioDecodingSuccess: {Path: "audio/decoding_success.wav", Volume: -0.4},
 		AudioSecretUnlocked:  {Path: "audio/secret_unlocked.wav", Volume: -0.35},
+		AudioCollision:       {Path: "audio/collision.wav", Volume: -0.2},
 		AudioDecipherMusic:   {Path: "audio/decipher_music.ogg", Volume: -0.2},
 	}
 	for id, res := range audioResources {
@@ -243,6 +246,7 @@ func main() {
 		ImageManualShapes:               {Path: "manual/shapes.png"},
 		ImageManualScopes:               {Path: "manual/scopes.png"},
 		ImageManualNegation:             {Path: "manual/negation.png"},
+		ImageManualOutputCollision:      {Path: "manual/collisions.png"},
 		ImageManualTranspositionCiphers: {Path: "manual/hint_transposition_ciphers.png"},
 		ImageManualSubstitutionCiphers:  {Path: "manual/hint_substitution_ciphers.png"},
 		ImageManualHintAtbash:           {Path: "manual/hint_atbash.png"},

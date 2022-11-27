@@ -66,6 +66,7 @@ type persistentGameData struct {
 	SolvedNegation     bool
 	UsedCheats         bool
 	UsedHiddenKeybinds bool
+	SawCollision       bool
 	CompletionTime     time.Duration
 	Options            gameOptions
 }

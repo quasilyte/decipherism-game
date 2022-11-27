@@ -14,6 +14,7 @@ type contentStatus struct {
 	hackedEverything     bool
 	usedCheats           bool
 	usedHiddenKeybinds   bool
+	sawCollision         bool
 }
 
 func calculateContentStatus(state *gameState) contentStatus {
@@ -25,6 +26,7 @@ func calculateContentStatus(state *gameState) contentStatus {
 		solvedNegation:     state.data.SolvedNegation,
 		usedCheats:         state.data.UsedCheats,
 		usedHiddenKeybinds: state.data.UsedHiddenKeybinds,
+		sawCollision:       state.data.SawCollision,
 	}
 
 	chaptersCleared := 0
@@ -65,10 +67,10 @@ func calculateContentStatus(state *gameState) contentStatus {
 		result.techLevelFeatures = append(result.techLevelFeatures, "value inspector")
 	}
 	if techLevel >= 2 {
-		result.techLevelFeatures = append(result.techLevelFeatures, "text buffer")
+		result.techLevelFeatures = append(result.techLevelFeatures, "branching info")
 	}
 	if techLevel >= 3 {
-		result.techLevelFeatures = append(result.techLevelFeatures, "branching info")
+		result.techLevelFeatures = append(result.techLevelFeatures, "text buffer")
 	}
 	if techLevel >= 4 {
 		result.techLevelFeatures = append(result.techLevelFeatures, "i/o logs")

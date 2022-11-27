@@ -147,7 +147,7 @@ func (c *decipherController) Init(scene *ge.Scene) {
 	scene.AddObject(c.componentInput)
 	c.componentInput.SetFocused(true)
 
-	keywordsTitle := c.newLabel(gmath.Vec{X: 1568 - 256 - 16, Y: 96*4 + 32}, "ACCESS KEYWORDS")
+	keywordsTitle := c.newLabel(gmath.Vec{X: 1568 - 256 - 16, Y: 96*4 + 32}, "ENCODED KEYWORDS")
 	scene.AddGraphics(keywordsTitle)
 
 	c.schema.encodedKeywords = make([]string, len(c.keywords))
@@ -263,6 +263,13 @@ func (c *decipherController) onProgramCompleted(output string) {
 		if c.numDecoded == len(c.keywordToggles) {
 			c.scene.DelayedCall(1.0, c.clearLevel)
 		}
+		return
+	}
+
+	if i := xslices.Index(c.schema.encodedKeywords, output); i != -1 {
+		c.gameState.data.SawCollision = true
+		c.scene.Context().Audio.PlaySound(AudioCollision)
+		return
 	}
 }
 
@@ -404,18 +411,21 @@ func (c *decipherController) Update(delta float64) {
 			c.terminalNode.UpdateInfo(c.makeStatusInfo())
 		}
 		c.componentInput.SetText("")
+		return
 	}
 	if len(c.componentInput.text) != 0 && c.gameState.input.ActionIsJustPressed(ActionBufferCopy) {
 		c.terminalNode.textBuffer = string(c.componentInput.text)
 		if c.isInTerminalMode() {
 			c.terminalNode.UpdateInfo(c.makeStatusInfo())
 		}
+		return
 	}
 	if c.gameState.input.ActionIsJustPressed(ActionBufferPaste) {
 		v, ok := c.terminalNode.GetBufferText()
 		if ok {
 			c.componentInput.SetText(v)
 		}
+		return
 	}
 
 	if !c.isInTerminalMode() && len(c.componentInput.text) != 0 {

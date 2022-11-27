@@ -145,7 +145,7 @@ func (i *componentInput) Update(delta float64) {
 			return
 		}
 	}
-	if len(i.text) < maxInputLen {
+	if len(i.text) < maxInputLen && !ebiten.IsKeyPressed(ebiten.KeyControl) {
 		i.pressedRunes = ebiten.AppendInputChars(i.pressedRunes[:0])
 		if len(i.pressedRunes) != 0 {
 			changed := false

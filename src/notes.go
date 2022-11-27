@@ -57,7 +57,7 @@ func init() {
 			\n
 			Every block has at least 3 components.
 			In order to hack the component,
-			I need to decipher all of its access keywords.
+			I need to decipher all of its keywords.
 			\n
 			The encoded keywords are known thanks
 			to the Decoder machine. I need to input
@@ -178,6 +178,24 @@ func init() {
 		`,
 		image: ImageManualScopes,
 		cond:  func(content *contentStatus) bool { return content.levelsCompleted >= 4 },
+	})
+
+	theGameManual.pages = append(theGameManual.pages, gameManualPage{
+		title: "Output Collision",
+		text: `
+			Sometimes different inputs can
+			produce the same output.
+			This output may look exactly
+			like the encoded keyword even if
+			the input is not a keyword
+			I'm looking for.
+			\n
+			The keywords are usually valid words.
+			If input looks like some gibberish,
+			more often than not it's close but no cigar.
+		`,
+		image: ImageManualOutputCollision,
+		cond:  func(content *contentStatus) bool { return content.sawCollision },
 	})
 
 	theGameManual.pages = append(theGameManual.pages, gameManualPage{
