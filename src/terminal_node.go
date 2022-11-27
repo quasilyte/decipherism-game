@@ -109,7 +109,7 @@ func (n *terminalNode) UpdateInfo(info statusInfo) {
 				if i == 0 {
 					textlines = append(textlines, "i/o logs: * "+l)
 				} else {
-					textlines = append(textlines, "         * "+l)
+					textlines = append(textlines, "          * "+l)
 				}
 			}
 		}
