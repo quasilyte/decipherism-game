@@ -1,5 +1,9 @@
 # CREDITS
 
+## Software
+
+* [Tiled](https://thorbjorn.itch.io/tiled) was used to create the game levels
+
 ## Fonts
 
 * https://www.dafont.com/sector-017.font by Neoqueto
