@@ -21,6 +21,10 @@ func newMainMenuController(s *gameState) *mainMenuController {
 func (c *mainMenuController) Init(scene *ge.Scene) {
 	c.scene = scene
 
+	if c.gameState.data.Options.Music {
+		scene.Audio().ContinueMusic(AudioMenuMusic)
+	}
+
 	bg := scene.NewSprite(ImagePaperBg)
 	bg.Centered = false
 	scene.AddGraphics(bg)

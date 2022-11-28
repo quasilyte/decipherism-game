@@ -9,8 +9,10 @@ type contentStatus struct {
 	solvedShift          bool
 	solvedIncDec         bool
 	solvedAtbash         bool
+	solvedPolygraphic    bool
 	solvedRot13          bool
 	solvedNegation       bool
+	solvedCondTransform  bool
 	hackedEverything     bool
 	usedCheats           bool
 	usedHiddenKeybinds   bool
@@ -19,14 +21,16 @@ type contentStatus struct {
 
 func calculateContentStatus(state *gameState) contentStatus {
 	result := contentStatus{
-		solvedShift:        state.data.SolvedShift,
-		solvedIncDec:       state.data.SolvedIncDec,
-		solvedAtbash:       state.data.SolvedAtbash,
-		solvedRot13:        state.data.SolvedRot13,
-		solvedNegation:     state.data.SolvedNegation,
-		usedCheats:         state.data.UsedCheats,
-		usedHiddenKeybinds: state.data.UsedHiddenKeybinds,
-		sawCollision:       state.data.SawCollision,
+		solvedPolygraphic:   state.data.SolvedPolygraphic,
+		solvedShift:         state.data.SolvedShift,
+		solvedIncDec:        state.data.SolvedIncDec,
+		solvedAtbash:        state.data.SolvedAtbash,
+		solvedRot13:         state.data.SolvedRot13,
+		solvedNegation:      state.data.SolvedNegation,
+		solvedCondTransform: state.data.SolvedCondTransform,
+		usedCheats:          state.data.UsedCheats,
+		usedHiddenKeybinds:  state.data.UsedHiddenKeybinds,
+		sawCollision:        state.data.SawCollision,
 	}
 
 	chaptersCleared := 0
@@ -63,22 +67,20 @@ func calculateContentStatus(state *gameState) contentStatus {
 	result.hackedEverything = result.levelsCompleted+result.bonusLevelsCompleted == len(theStoryModeMap.levels)
 
 	techLevel := chaptersCleared
+	result.techLevelFeatures = append(result.techLevelFeatures, "value inspector")
 	if techLevel >= 1 {
-		result.techLevelFeatures = append(result.techLevelFeatures, "value inspector")
+		result.techLevelFeatures = append(result.techLevelFeatures, "text buffer")
 	}
 	if techLevel >= 2 {
 		result.techLevelFeatures = append(result.techLevelFeatures, "branching info")
 	}
 	if techLevel >= 3 {
-		result.techLevelFeatures = append(result.techLevelFeatures, "text buffer")
-	}
-	if techLevel >= 4 {
 		result.techLevelFeatures = append(result.techLevelFeatures, "i/o logs")
 	}
-	if techLevel >= 5 {
+	if techLevel >= 4 {
 		result.techLevelFeatures = append(result.techLevelFeatures, "output predictor")
 	}
-	if techLevel >= 6 {
+	if techLevel >= 5 {
 		result.techLevelFeatures = append(result.techLevelFeatures, "advanced input")
 	}
 

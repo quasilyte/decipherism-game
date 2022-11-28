@@ -22,7 +22,7 @@ func newLCDLabel(pos gmath.Vec, clr color.RGBA, text string) *lcdLabel {
 }
 
 func (l *lcdLabel) Init(scene *ge.Scene) {
-	l.labelBg = ge.NewRect(scene.Context(), 320, 64)
+	l.labelBg = ge.NewRect(scene.Context(), 328, 64)
 	l.labelBg.Centered = false
 	l.labelBg.Pos.Base = &l.pos
 	l.labelBg.OutlineWidth = 4

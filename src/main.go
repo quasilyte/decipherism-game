@@ -20,6 +20,7 @@ const (
 	AudioDecodingSuccess
 	AudioSecretUnlocked
 	AudioCollision
+	AudioMenuMusic
 	AudioDecipherMusic
 )
 
@@ -50,11 +51,13 @@ const (
 	ImageManualFullCompletionBonus
 	ImageManualShapes
 	ImageManualScopes
+	ImageConditionalTransformations
 	ImageManualOutputCollision
 	ImageManualOptimizedDecoding
 	ImageManualNegation
 	ImageManualTranspositionCiphers
 	ImageManualSubstitutionCiphers
+	ImageManualPolygraphicCiphers
 	ImageManualHintAtbash
 	ImageManualHintRot13
 	ImageManualValueInspector
@@ -100,6 +103,7 @@ const (
 	ImageElemAddNowrap
 	ImageElemAddButfirstNowrap
 	ImageElemAddDotted
+	ImageElemAddButfirstDotted
 	ImageElemAddEven
 	ImageElemAddOdd
 	ImageElemSub
@@ -204,7 +208,8 @@ func main() {
 		AudioDecodingSuccess: {Path: "audio/decoding_success.wav", Volume: -0.4},
 		AudioSecretUnlocked:  {Path: "audio/secret_unlocked.wav", Volume: -0.35},
 		AudioCollision:       {Path: "audio/collision.wav", Volume: -0.2},
-		AudioDecipherMusic:   {Path: "audio/decipher_music.ogg", Volume: -0.2},
+		AudioMenuMusic:       {Path: "audio/menu.ogg", Volume: -0.5},
+		AudioDecipherMusic:   {Path: "audio/hack.ogg", Volume: -0.55},
 	}
 	for id, res := range audioResources {
 		ctx.Loader.AudioRegistry.Set(id, res)
@@ -245,10 +250,12 @@ func main() {
 		ImageManualOptimizedDecoding:    {Path: "manual/optimized_decoding.png"},
 		ImageManualShapes:               {Path: "manual/shapes.png"},
 		ImageManualScopes:               {Path: "manual/scopes.png"},
+		ImageConditionalTransformations: {Path: "manual/conditional_transformations.png"},
 		ImageManualNegation:             {Path: "manual/negation.png"},
 		ImageManualOutputCollision:      {Path: "manual/collisions.png"},
 		ImageManualTranspositionCiphers: {Path: "manual/hint_transposition_ciphers.png"},
 		ImageManualSubstitutionCiphers:  {Path: "manual/hint_substitution_ciphers.png"},
+		ImageManualPolygraphicCiphers:   {Path: "manual/hint_polygraphic_ciphers.png"},
 		ImageManualHintAtbash:           {Path: "manual/hint_atbash.png"},
 		ImageManualHintRot13:            {Path: "manual/hint_rot13.png"},
 		ImageManualValueInspector:       {Path: "manual/value_inspector.png"},
@@ -294,6 +301,7 @@ func main() {
 		ImageElemAddLast:             {Path: "elements/elem_add_last.png"},
 		ImageElemAddNowrap:           {Path: "elements/elem_add_nowrap.png"},
 		ImageElemAddButfirstNowrap:   {Path: "elements/elem_add_butfirst_nowrap.png"},
+		ImageElemAddButfirstDotted:   {Path: "elements/elem_add_butfirst_dotted.png"},
 		ImageElemAddDotted:           {Path: "elements/elem_add_dotted.png"},
 		ImageElemAddEven:             {Path: "elements/elem_add_even.png"},
 		ImageElemAddOdd:              {Path: "elements/elem_add_odd.png"},

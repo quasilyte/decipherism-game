@@ -24,6 +24,10 @@ func newLevelSelectController(s *gameState) *levelSelectController {
 func (c *levelSelectController) Init(scene *ge.Scene) {
 	c.scene = scene
 
+	if c.gameState.data.Options.Music {
+		scene.Audio().ContinueMusic(AudioMenuMusic)
+	}
+
 	bg := scene.NewSprite(ImagePaperBg)
 	bg.Centered = false
 	scene.AddGraphics(bg)
@@ -58,8 +62,8 @@ func (c *levelSelectController) Init(scene *ge.Scene) {
 			if completionData != nil && completionData.SecretKeyword {
 				levelStrings[i] += "  (" + strings.ToUpper(string(inputData)) + ")"
 			}
+			c.secretKeywords[i] = string(inputData) // A non-encoded input
 			inputData = []byte(runner.Exec(schema, string(inputData)))
-			c.secretKeywords[i] = string(inputData)
 		}
 		encodedKeyword = strings.ToUpper(string(inputData))
 	}

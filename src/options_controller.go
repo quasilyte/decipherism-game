@@ -50,6 +50,11 @@ func (c *optionsController) Init(scene *ge.Scene) {
 	musicToggle.EventActivated.Connect(nil, func(_ *ui.Button) {
 		options.Music = !options.Music
 		musicToggle.Text = "music: " + onoffText(options.Music)
+		if options.Music {
+			scene.Audio().ContinueCurrentMusic()
+		} else {
+			scene.Audio().PauseCurrentMusic()
+		}
 	})
 	scene.AddObject(musicToggle)
 	offset.Y += 128

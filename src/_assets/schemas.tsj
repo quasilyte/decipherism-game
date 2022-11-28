@@ -8,7 +8,7 @@
  "margin":0,
  "name":"schemas",
  "spacing":0,
- "tilecount":51,
+ "tilecount":52,
  "tiledversion":"1.9.2",
  "tileheight":96,
  "tiles":[
@@ -244,6 +244,13 @@
          "class":"apply_add_dotted",
          "id":44,
          "image":"elements\/elem_add_dotted.png",
+         "imageheight":96,
+         "imagewidth":96
+        }, 
+        {
+         "class":"apply_add_butfirst_dotted",
+         "id":54,
+         "image":"elements\/elem_add_butfirst_dotted.png",
          "imageheight":96,
          "imagewidth":96
         }, 

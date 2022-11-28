@@ -16,7 +16,6 @@ type componentInput struct {
 	pressedRunes     []rune
 	text             []byte
 	lcdLabel         *lcdLabel
-	focused          bool
 	cursorPos        int
 	cursor           *ge.Label
 	cursorBlinkDelay float64
@@ -57,24 +56,13 @@ func (i *componentInput) Init(scene *ge.Scene) {
 	i.onTextChanged()
 }
 
-func (i *componentInput) SetFocused(focused bool) {
-	i.focused = focused
-}
-
 func (i *componentInput) IsDisposed() bool { return false }
 
 func (i *componentInput) Update(delta float64) {
-	if !i.focused {
-		i.cursor.Visible = false
-		return
-	}
-
 	i.cursorBlinkDelay -= delta
 	if i.cursorBlinkDelay <= 0 {
 		i.cursorBlinkDelay = 1
-		if len(i.text) < maxInputLen {
-			i.cursor.Visible = !i.cursor.Visible
-		}
+		i.cursor.Visible = !i.cursor.Visible
 	}
 
 	if i.advancedOps && len(i.text) != 0 {
@@ -177,16 +165,12 @@ func (i *componentInput) onTextChanged() {
 }
 
 func (i *componentInput) onCursorChanged() {
-	if len(i.text) >= maxInputLen {
-		i.cursor.Visible = false
-	} else {
-		cursorPos := i.cursorPos
-		if cursorPos < 0 {
-			cursorPos = len(i.text)
-		}
-		const letterWidth = 26
-		textWidth := letterWidth * len(i.text)
-		firstLetterOffset := 160 - textWidth/2
-		i.cursor.Pos.Offset.X = float64(firstLetterOffset + cursorPos*letterWidth + 2)
+	cursorPos := i.cursorPos
+	if cursorPos < 0 {
+		cursorPos = len(i.text)
 	}
+	const letterWidth = 26
+	textWidth := letterWidth * len(i.text)
+	firstLetterOffset := 160 - textWidth/2
+	i.cursor.Pos.Offset.X = float64(firstLetterOffset + cursorPos*letterWidth + 2)
 }

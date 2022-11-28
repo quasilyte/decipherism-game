@@ -181,6 +181,23 @@ func init() {
 	})
 
 	theGameManual.pages = append(theGameManual.pages, gameManualPage{
+		title: "Conditional Transformations",
+		text: `
+			A full transformation element format
+			consists of these three parts:
+			\n
+			1. Condition
+			2. Operation
+			3. Scope
+			\n
+			It's possible to find a "+" element
+			that changes only dot-marked letters.
+		`,
+		image: ImageConditionalTransformations,
+		cond:  func(content *contentStatus) bool { return content.solvedCondTransform },
+	})
+
+	theGameManual.pages = append(theGameManual.pages, gameManualPage{
 		title: "Output Collision",
 		text: `
 			Sometimes different inputs can
@@ -201,7 +218,8 @@ func init() {
 	theGameManual.pages = append(theGameManual.pages, gameManualPage{
 		title: "Compound Pipeline Ciphers",
 		text: `
-			Some blocks form an encoding pipeline.
+			Each major block has its a
+			cross-component keyword.
 			\n
 			Some secret word is given as an input
 			to the 1st component. The output of
@@ -246,9 +264,23 @@ func init() {
 	})
 
 	theGameManual.pages = append(theGameManual.pages, gameManualPage{
+		title: "Polygraphic Ciphers",
+		text: `
+			Some ciphers may operate on
+			groups of letters.
+			\n
+			A polygraphic atbash-like encoding
+			illustrated here replaces the pairs
+			of dot-marked letters.
+		`,
+		image: ImageManualPolygraphicCiphers,
+		cond:  func(content *contentStatus) bool { return content.solvedPolygraphic },
+	})
+
+	theGameManual.pages = append(theGameManual.pages, gameManualPage{
 		title: "Negation",
 		text: `
-			This peculiar anglular thing is negation.
+			This peculiar Anglular thing is negation.
 			\n
 			The logical negation indicates that
 			the truth value of the statement
@@ -337,7 +369,7 @@ func init() {
 			input value in it. Pressing [ctrl]+[v] replaces
 			the input contents with the previously saved text.
 			\n
-			[ctrl]+[x] works as expeted too.
+			[ctrl]+[x] works as expected too.
 			\n
 			I can also use it as a scratch pad
 			when my terminal is open.
@@ -408,10 +440,10 @@ func init() {
 		text: `
 			The improved input system includes new moves:
 			\n
-			[ctrl][=] increment current char
-			[ctrl][-] decrement current char
-			[ctrl][left] shift chars left
-			[ctrl][right] shift chars right
+			[ctrl][=] increment current letter
+			[ctrl][-] decrement current letter
+			[ctrl][left] shift letters left
+			[ctrl][right] shift letters right
 			\n
 			This should make things a lot easier.
 		`,
@@ -427,7 +459,7 @@ func init() {
 			I hacked throught... everything?
 			\n
 			It took me %d seconds (%d minutes)
-			minutes to clear all %d levels.
+			to clear all %d levels.
 			\n
 			And yes.
 			I am a dog.

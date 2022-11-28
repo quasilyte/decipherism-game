@@ -58,17 +58,19 @@ func (state *gameState) GetChapterCompletionData(c *storyModeChapter) chapterCom
 }
 
 type persistentGameData struct {
-	CompletedLevels    []completedLevelData
-	SolvedAtbash       bool
-	SolvedRot13        bool
-	SolvedIncDec       bool
-	SolvedShift        bool
-	SolvedNegation     bool
-	UsedCheats         bool
-	UsedHiddenKeybinds bool
-	SawCollision       bool
-	CompletionTime     time.Duration
-	Options            gameOptions
+	CompletedLevels     []completedLevelData
+	SolvedAtbash        bool
+	SolvedRot13         bool
+	SolvedIncDec        bool
+	SolvedShift         bool
+	SolvedPolygraphic   bool
+	SolvedNegation      bool
+	SolvedCondTransform bool
+	UsedCheats          bool
+	UsedHiddenKeybinds  bool
+	SawCollision        bool
+	CompletionTime      time.Duration
+	Options             gameOptions
 }
 
 type gameOptions struct {
@@ -137,8 +139,9 @@ var theStoryModeMap = &storyModeMap{
 			name:     "bonus3",
 			requires: "story3",
 			levels: []string{
-				"claws",
+				"double_zigzag",
 				"clear_head",
+				"deduction",
 			},
 			gridPos: gmath.Vec{X: 2, Y: 1},
 		},
@@ -147,8 +150,9 @@ var theStoryModeMap = &storyModeMap{
 			name:     "bonus4",
 			requires: "story4",
 			levels: []string{
-				"stuttering",
+				"claws",
 				"even_odd_add",
+				"rumble",
 			},
 			gridPos: gmath.Vec{X: 3, Y: 1},
 		},
@@ -157,7 +161,7 @@ var theStoryModeMap = &storyModeMap{
 			name:     "bonus5",
 			requires: "story5",
 			levels: []string{
-				"double_zigzag",
+				"stuttering",
 				"the_best_number",
 			},
 			gridPos: gmath.Vec{X: 4, Y: 1},
@@ -216,7 +220,7 @@ var theStoryModeMap = &storyModeMap{
 			levels: []string{
 				"ladder",
 				"red_herring",
-				"switch",
+				"symmetry",
 			},
 			gridPos: gmath.Vec{X: 3, Y: 0},
 		},
@@ -226,10 +230,10 @@ var theStoryModeMap = &storyModeMap{
 			requires: "story4",
 			keyword:  "whirlwind",
 			levels: []string{
+				"switch",
 				"dotmask",
-				"symmetry",
-				"deduction",
 				"odd_evening",
+				"nop_shuffling",
 			},
 			gridPos: gmath.Vec{X: 4, Y: 0},
 		},
@@ -237,7 +241,7 @@ var theStoryModeMap = &storyModeMap{
 			label:    "6",
 			name:     "story6",
 			requires: "story5",
-			keyword:  "earthquake",
+			keyword:  "cloudburst",
 			levels: []string{
 				"single_key",
 				"rot13",

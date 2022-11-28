@@ -9,9 +9,11 @@ type componentSchema struct {
 	keywords        []string
 	encodedKeywords []string
 
-	hasAtbash   bool
-	hasRot13    bool
-	hasIncDec   bool
-	hasShift    bool
-	hasNegation bool
+	hasCondTransform bool
+	hasPolygraphic   bool
+	hasAtbash        bool
+	hasRot13         bool
+	hasIncDec        bool
+	hasShift         bool
+	hasNegation      bool
 }

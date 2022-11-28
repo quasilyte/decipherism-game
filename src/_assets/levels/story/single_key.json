@@ -93,7 +93,7 @@
                         {
                          "name":"string_arg",
                          "type":"string",
-                         "value":"earthquake"
+                         "value":"cloudburst"
                         }],
                  "rotation":0,
                  "visible":true,

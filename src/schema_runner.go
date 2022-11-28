@@ -145,6 +145,8 @@ func (r *schemaRunner) runTransformElem() {
 		mapCharsButfirst(r.data, r.incCharNowrap)
 	case "apply_add_dotted":
 		mapChars(r.data, incCharDotted)
+	case "apply_add_butfirst_dotted":
+		mapCharsButfirst(r.data, incCharDotted)
 	case "apply_add_odd":
 		mapOddChars(r.data, incChar)
 	case "apply_add_even":

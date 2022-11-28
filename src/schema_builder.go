@@ -167,7 +167,12 @@ func (b *schemaBuilder) build() {
 			rotation:    t.rotation,
 			extraData:   t.extraData,
 		}
+		// TODO: use a tileset metadata for that.
 		switch {
+		case strings.HasSuffix(elem.tileClass, "_dotted") || strings.HasSuffix(elem.tileClass, "_undotted") || strings.HasSuffix(elem.tileClass, "_even") || strings.HasSuffix(elem.tileClass, "_odd"):
+			s.hasCondTransform = true
+		case strings.Contains(elem.tileClass, "polygraphic"):
+			s.hasPolygraphic = true
 		case strings.Contains(elem.tileClass, "atbash"):
 			s.hasAtbash = true
 		case strings.Contains(elem.tileClass, "rot13"):

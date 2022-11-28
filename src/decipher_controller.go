@@ -79,7 +79,8 @@ func (c *decipherController) Init(scene *ge.Scene) {
 	c.startTime = time.Now()
 
 	if c.gameState.data.Options.Music {
-		scene.Audio().ContinueMusic(AudioDecipherMusic)
+		scene.Audio().PauseCurrentMusic()
+		scene.Audio().PlayMusic(AudioDecipherMusic)
 	}
 
 	bg := scene.NewSprite(ImageDecipherBg)
@@ -145,7 +146,6 @@ func (c *decipherController) Init(scene *ge.Scene) {
 	c.componentInput = newComponentInput(c.gameState.input, gmath.Vec{X: 1568 - 256 - 16, Y: 96}, c.config.advancedInput)
 	c.componentInput.EventOnTextChanged.Connect(nil, c.onInputTextChanged)
 	scene.AddObject(c.componentInput)
-	c.componentInput.SetFocused(true)
 
 	keywordsTitle := c.newLabel(gmath.Vec{X: 1568 - 256 - 16, Y: 96*4 + 32}, "ENCODED KEYWORDS")
 	scene.AddGraphics(keywordsTitle)
@@ -215,6 +215,8 @@ func (c *decipherController) clearLevel() {
 		completionData.SecretKeyword = true
 	}
 
+	c.gameState.data.SolvedCondTransform = c.gameState.data.SolvedCondTransform || c.schema.hasCondTransform
+	c.gameState.data.SolvedPolygraphic = c.gameState.data.SolvedPolygraphic || c.schema.hasPolygraphic
 	c.gameState.data.SolvedAtbash = c.gameState.data.SolvedAtbash || c.schema.hasAtbash
 	c.gameState.data.SolvedRot13 = c.gameState.data.SolvedRot13 || c.schema.hasRot13
 	c.gameState.data.SolvedIncDec = c.gameState.data.SolvedIncDec || c.schema.hasIncDec
@@ -241,7 +243,7 @@ func (c *decipherController) onProgramCompleted(output string) {
 		c.ioLogs[2] = c.simulationInput + " -> " + output
 	}
 
-	if output == c.config.secretKeyword {
+	if c.simulationInput == c.config.secretKeyword {
 		c.scene.Context().Audio.PlaySound(AudioSecretUnlocked)
 		c.secretDecoded = true
 		completionData := xslices.Find(c.gameState.data.CompletedLevels, func(d *completedLevelData) bool {

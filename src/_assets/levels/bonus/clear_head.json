@@ -65,7 +65,7 @@
                         {
                          "name":"keywords",
                          "type":"string",
-                         "value":"olive\nlinux\nprecursor\nobelisk\nstream\nvertex"
+                         "value":"olive\nlinux\ncursor\nobelisk\nstream\nvertex"
                         }, 
                         {
                          "name":"num_keywords",
@@ -77,18 +77,6 @@
                  "width":96,
                  "x":0,
                  "y":768
-                }, 
-                {
-                 "class":"",
-                 "gid":45,
-                 "height":96,
-                 "id":118,
-                 "name":"",
-                 "rotation":0,
-                 "visible":true,
-                 "width":96,
-                 "x":480,
-                 "y":192
                 }, 
                 {
                  "class":"",
@@ -172,8 +160,7 @@
                  "width":96,
                  "x":672,
                  "y":384
-                },
-            
+                }, 
                 {
                  "class":"",
                  "gid":39,
@@ -185,6 +172,19 @@
                  "width":96,
                  "x":672,
                  "y":384
+                },
+            
+                {
+                 "class":"",
+                 "gid":55,
+                 "height":96,
+                 "id":129,
+                 "name":"",
+                 "rotation":0,
+                 "visible":true,
+                 "width":96,
+                 "x":480,
+                 "y":192
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -193,7 +193,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":129,
+ "nextobjectid":130,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
