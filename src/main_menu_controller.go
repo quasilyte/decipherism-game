@@ -21,7 +21,9 @@ func newMainMenuController(s *gameState) *mainMenuController {
 func (c *mainMenuController) Init(scene *ge.Scene) {
 	c.scene = scene
 
-	if c.gameState.data.Options.Music {
+	scene.Audio().SetGroupVolume(SoundGroupMusic, volumeMultiplier(c.gameState.data.Options.MusicVolumeLevel))
+	scene.Audio().SetGroupVolume(SoundGroupEffect, volumeMultiplier(c.gameState.data.Options.EffectsVolumeLevel))
+	if c.gameState.data.Options.MusicVolumeLevel != 0 {
 		scene.Audio().ContinueMusic(AudioMenuMusic)
 	}
 

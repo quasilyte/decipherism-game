@@ -24,7 +24,7 @@ func newLevelSelectController(s *gameState) *levelSelectController {
 func (c *levelSelectController) Init(scene *ge.Scene) {
 	c.scene = scene
 
-	if c.gameState.data.Options.Music {
+	if c.gameState.data.Options.MusicVolumeLevel != 0 {
 		scene.Audio().ContinueMusic(AudioMenuMusic)
 	}
 

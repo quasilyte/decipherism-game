@@ -22,4 +22,14 @@ package main
 // -- Added a conditional transformations manual page
 // -- Added a couple of new levels
 // -- Added menu music
-const buildVersion = "3"
+//
+// Build 4.
+// > Other:
+// -- Made sound levels configurable
+// > Content modifications:
+// -- Rebalanced some levels
+// > New content:
+// -- Added a conditions vocab manual page
+// -- Added a "binary tree" level
+// -- Added a "conveyor" level
+const buildVersion = "4"

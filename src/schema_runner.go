@@ -265,7 +265,7 @@ func (r *schemaRunner) evalIfCond() bool {
 		result = bytes.Count(r.data, []byte(extra.stringArg)) == extra.intArg
 	case "contains_letter":
 		result = bytes.ContainsAny(r.data, extra.stringArg)
-	case "contains":
+	case "contains_substr":
 		result = bytes.Contains(r.data, []byte(extra.stringArg))
 	case "has_prefix":
 		result = bytes.HasPrefix(r.data, []byte(extra.stringArg))

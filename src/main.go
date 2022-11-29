@@ -16,6 +16,11 @@ import (
 var gameAssets embed.FS
 
 const (
+	SoundGroupEffect uint = iota
+	SoundGroupMusic
+)
+
+const (
 	AudioNone resource.AudioID = iota
 	AudioDecodingSuccess
 	AudioSecretUnlocked
@@ -63,6 +68,7 @@ const (
 	ImageManualValueInspector
 	ImageManualTextBuffer
 	ImageManualBranchingInfo
+	ImageManualConditionsVocab
 	ImageManualIOLogs
 	ImageManualOutputPredictor
 	ImageManualAdvancedInput
@@ -208,8 +214,8 @@ func main() {
 		AudioDecodingSuccess: {Path: "audio/decoding_success.wav", Volume: -0.4},
 		AudioSecretUnlocked:  {Path: "audio/secret_unlocked.wav", Volume: -0.35},
 		AudioCollision:       {Path: "audio/collision.wav", Volume: -0.2},
-		AudioMenuMusic:       {Path: "audio/menu.ogg", Volume: -0.5},
-		AudioDecipherMusic:   {Path: "audio/hack.ogg", Volume: -0.55},
+		AudioMenuMusic:       {Path: "audio/menu.ogg", Group: SoundGroupMusic, Volume: -0.4},
+		AudioDecipherMusic:   {Path: "audio/hack.ogg", Group: SoundGroupMusic, Volume: -0.45},
 	}
 	for id, res := range audioResources {
 		ctx.Loader.AudioRegistry.Set(id, res)
@@ -261,6 +267,7 @@ func main() {
 		ImageManualValueInspector:       {Path: "manual/value_inspector.png"},
 		ImageManualTextBuffer:           {Path: "manual/text_buffer.png"},
 		ImageManualBranchingInfo:        {Path: "manual/branching_info.png"},
+		ImageManualConditionsVocab:      {Path: "manual/conditions_vocab.png"},
 		ImageManualIOLogs:               {Path: "manual/io_logs.png"},
 		ImageManualOutputPredictor:      {Path: "manual/output_predictor.png"},
 		ImageManualAdvancedInput:        {Path: "manual/advanced_input.png"},
@@ -354,8 +361,9 @@ func main() {
 	state := &gameState{
 		data: &persistentGameData{
 			Options: gameOptions{
-				Music:     true,
-				CrtShader: true,
+				MusicVolumeLevel:   2,
+				EffectsVolumeLevel: 2,
+				CrtShader:          true,
 			},
 		},
 	}

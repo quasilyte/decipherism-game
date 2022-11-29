@@ -74,8 +74,9 @@ type persistentGameData struct {
 }
 
 type gameOptions struct {
-	Music     bool
-	CrtShader bool
+	MusicVolumeLevel   int
+	EffectsVolumeLevel int
+	CrtShader          bool
 }
 
 type completedLevelData struct {
@@ -139,8 +140,8 @@ var theStoryModeMap = &storyModeMap{
 			name:     "bonus3",
 			requires: "story3",
 			levels: []string{
+				"symmetry",
 				"double_zigzag",
-				"clear_head",
 				"deduction",
 			},
 			gridPos: gmath.Vec{X: 2, Y: 1},
@@ -150,7 +151,7 @@ var theStoryModeMap = &storyModeMap{
 			name:     "bonus4",
 			requires: "story4",
 			levels: []string{
-				"claws",
+				"clear_head",
 				"even_odd_add",
 				"rumble",
 			},
@@ -161,6 +162,7 @@ var theStoryModeMap = &storyModeMap{
 			name:     "bonus5",
 			requires: "story5",
 			levels: []string{
+				"claws",
 				"stuttering",
 				"the_best_number",
 			},
@@ -171,6 +173,7 @@ var theStoryModeMap = &storyModeMap{
 			name:     "bonus6",
 			requires: "story6",
 			levels: []string{
+				"conveyor",
 				"pyramid",
 				"mission_impossible",
 			},
@@ -196,7 +199,7 @@ var theStoryModeMap = &storyModeMap{
 			levels: []string{
 				"vowel_shifter",
 				"efforts_negated",
-				"loop",
+				"addsub_negation",
 			},
 			gridPos: gmath.Vec{X: 1, Y: 0},
 		},
@@ -220,7 +223,7 @@ var theStoryModeMap = &storyModeMap{
 			levels: []string{
 				"ladder",
 				"red_herring",
-				"symmetry",
+				"binary_tree",
 			},
 			gridPos: gmath.Vec{X: 3, Y: 0},
 		},

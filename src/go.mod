@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/hajimehoshi/ebiten/v2 v2.4.9
-	github.com/quasilyte/ge v0.0.0-20221126163302-c7e43e368295
+	github.com/quasilyte/ge v0.0.0-20221129162420-027f210db552
 	github.com/quasilyte/gmath v0.0.0-20221030161443-c87c79f8cacf
 )
 

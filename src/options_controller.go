@@ -1,6 +1,8 @@
 package main
 
 import (
+	"strconv"
+
 	"github.com/quasilyte/ge"
 	"github.com/quasilyte/ge/ui"
 	"github.com/quasilyte/gmath"
@@ -25,7 +27,7 @@ func (c *optionsController) Init(scene *ge.Scene) {
 	scene.AddGraphics(rect)
 
 	buttonWidth := 640.0
-	offset := gmath.Vec{X: ctx.WindowWidth/2 - buttonWidth/2, Y: 256}
+	offset := gmath.Vec{X: ctx.WindowWidth/2 - buttonWidth/2, Y: 256 - 64}
 	uiRoot := ui.NewRoot(ctx, c.gameState.input)
 	uiRoot.ActivationAction = ActionMenuConfirm
 	uiRoot.NextInputAction = ActionMenuNext
@@ -43,20 +45,49 @@ func (c *optionsController) Init(scene *ge.Scene) {
 
 	var bgroup buttonGroup
 
-	musicToggle := uiRoot.NewButton(optionsButtonStyle.Resized(buttonWidth, 80))
-	bgroup.AddButton(musicToggle)
-	musicToggle.Text = "music: " + onoffText(options.Music)
-	musicToggle.Pos.Offset = offset
-	musicToggle.EventActivated.Connect(nil, func(_ *ui.Button) {
-		options.Music = !options.Music
-		musicToggle.Text = "music: " + onoffText(options.Music)
-		if options.Music {
-			scene.Audio().ContinueCurrentMusic()
-		} else {
-			scene.Audio().PauseCurrentMusic()
-		}
-	})
-	scene.AddObject(musicToggle)
+	{
+		musicToggle := uiRoot.NewButton(optionsButtonStyle.Resized(buttonWidth, 80))
+		bgroup.AddButton(musicToggle)
+		var musicToggleValue gmath.Slider
+		musicToggleValue.SetBounds(0, 4)
+		musicToggleValue.TrySetValue(options.MusicVolumeLevel)
+		musicToggle.Text = "music volume: " + strconv.Itoa(options.MusicVolumeLevel)
+		musicToggle.Pos.Offset = offset
+		musicToggle.EventActivated.Connect(nil, func(_ *ui.Button) {
+			musicToggleValue.Inc()
+			options.MusicVolumeLevel = musicToggleValue.Value()
+			musicToggle.Text = "music volume: " + strconv.Itoa(options.MusicVolumeLevel)
+			if options.MusicVolumeLevel != 0 {
+				scene.Audio().SetGroupVolume(SoundGroupMusic, volumeMultiplier(options.MusicVolumeLevel))
+				scene.Audio().PauseCurrentMusic()
+				scene.Audio().PlayMusic(AudioMenuMusic)
+			} else {
+				scene.Audio().PauseCurrentMusic()
+			}
+		})
+		scene.AddObject(musicToggle)
+	}
+	offset.Y += 128
+
+	{
+		effectToggle := uiRoot.NewButton(optionsButtonStyle.Resized(buttonWidth, 80))
+		bgroup.AddButton(effectToggle)
+		var effectToggleValue gmath.Slider
+		effectToggleValue.SetBounds(0, 4)
+		effectToggleValue.TrySetValue(options.EffectsVolumeLevel)
+		effectToggle.Text = "effects volume: " + strconv.Itoa(options.EffectsVolumeLevel)
+		effectToggle.Pos.Offset = offset
+		effectToggle.EventActivated.Connect(nil, func(_ *ui.Button) {
+			effectToggleValue.Inc()
+			options.EffectsVolumeLevel = effectToggleValue.Value()
+			effectToggle.Text = "effects volume: " + strconv.Itoa(options.EffectsVolumeLevel)
+			if options.EffectsVolumeLevel != 0 {
+				scene.Audio().SetGroupVolume(SoundGroupEffect, volumeMultiplier(options.EffectsVolumeLevel))
+				scene.Audio().PlaySound(AudioSecretUnlocked)
+			}
+		})
+		scene.AddObject(effectToggle)
+	}
 	offset.Y += 128
 
 	shaderToggle := uiRoot.NewButton(optionsButtonStyle.Resized(buttonWidth, 80))

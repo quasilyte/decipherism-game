@@ -78,7 +78,7 @@ func (c *decipherController) Init(scene *ge.Scene) {
 
 	c.startTime = time.Now()
 
-	if c.gameState.data.Options.Music {
+	if c.gameState.data.Options.MusicVolumeLevel != 0 {
 		scene.Audio().PauseCurrentMusic()
 		scene.Audio().PlayMusic(AudioDecipherMusic)
 	}

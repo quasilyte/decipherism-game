@@ -400,6 +400,26 @@ func init() {
 	})
 
 	theGameManual.pages = append(theGameManual.pages, gameManualPage{
+		title: "Conditions Vocab",
+		text: `
+			- len: length (number of letters)
+			- substr: substring, a part of the word
+			- eq: equals (=)
+			- lt: less than (<)
+			- gt: greater than (>)
+			- even: numbers like 2, 4, 6, ...
+			- odd: numbers like 1, 3, 5, ...
+			\n
+			There is also an FNV hash condition that
+			can't realistically be predicted.
+		`,
+		image: ImageManualConditionsVocab,
+		cond: func(content *contentStatus) bool {
+			return xslices.Contains(content.techLevelFeatures, "branching info")
+		},
+	})
+
+	theGameManual.pages = append(theGameManual.pages, gameManualPage{
 		title: "I/O Logs",
 		text: `
 			Records the last three runs.

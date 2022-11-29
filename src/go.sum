@@ -28,6 +28,8 @@ github.com/quasilyte/ge v0.0.0-20221125070918-0688ac3cc66f h1:epfukJIhHTe0hcVHMM
 github.com/quasilyte/ge v0.0.0-20221125070918-0688ac3cc66f/go.mod h1:+xYyIiHBnRY4bUabCkPWrALGcxlESloFzfFmvDi3VT0=
 github.com/quasilyte/ge v0.0.0-20221126163302-c7e43e368295 h1:4jSIQno6s2MmtMMTuJAbKR9T+lpB9+4O7gT2VZ35I9c=
 github.com/quasilyte/ge v0.0.0-20221126163302-c7e43e368295/go.mod h1:+xYyIiHBnRY4bUabCkPWrALGcxlESloFzfFmvDi3VT0=
+github.com/quasilyte/ge v0.0.0-20221129162420-027f210db552 h1:SwJHRdQ1aZXuW0c2nqRPSNiLq4AnNO70+QUCPnA3TMQ=
+github.com/quasilyte/ge v0.0.0-20221129162420-027f210db552/go.mod h1:+xYyIiHBnRY4bUabCkPWrALGcxlESloFzfFmvDi3VT0=
 github.com/quasilyte/gmath v0.0.0-20221030161443-c87c79f8cacf h1:DFogsSPKcPVkoR9IZvC1QbLd8j4uDF0rHVgm4sW7xks=
 github.com/quasilyte/gmath v0.0.0-20221030161443-c87c79f8cacf/go.mod h1:EbI+KMbALSVE2s0YFOQpR4uj66zBh9ter5P4CBMSuvA=
 github.com/yuin/goldmark v1.4.0/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1Zlc8k=
