@@ -1,5 +1,8 @@
 package main
 
+// TODO:
+// * reduce the number of encoding collision keywords
+//
 // Build 2.
 // -- Added the encoding collision sfx
 // -- Added the encoding collision manual entry
@@ -32,4 +35,11 @@ package main
 // -- Added a conditions vocab manual page
 // -- Added a "binary tree" level
 // -- Added a "conveyor" level
-const buildVersion = "4"
+//
+// Build 5.
+// > Bug fixes:
+// -- Second checkmark near the bonus levels (if they were completed and moved from the story levels)
+// > Content modifications:
+// -- A "switch" level now modifies words longer than 5 too
+// -- Done some more manual pages proof reading
+const buildVersion = "5"

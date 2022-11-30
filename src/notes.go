@@ -38,7 +38,7 @@ func init() {
 		text: `
 			I am going to use the
 			Decoder terminal to bypass
-			the Hexagon security systems.
+			Hexagon security systems.
 			\n
 			It has no manual, so I'm going
 			to write one myself.
@@ -50,13 +50,13 @@ func init() {
 	})
 
 	theGameManual.pages = append(theGameManual.pages, gameManualPage{
-		title: "The Hexagon Security System",
+		title: "Hexagon Security System",
 		text: `
 			There are six major blocks that form
-			the defense perimeter of the Hexagon.
+			the defense perimeter of Hexagon.
 			\n
 			Every block has at least 3 components.
-			In order to hack the component,
+			In order to hack a component,
 			I need to decipher all of its keywords.
 			\n
 			The encoded keywords are known thanks

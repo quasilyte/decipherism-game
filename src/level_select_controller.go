@@ -133,7 +133,7 @@ func (c *levelSelectController) initUI(offset gmath.Vec) {
 			checkmark := c.scene.NewSprite(ImageCompleteMark)
 			checkmark.Pos.Offset = offset.Add(gmath.Vec{X: -154, Y: 40})
 			c.scene.AddGraphics(checkmark)
-			if completionData.SecretKeyword {
+			if !chapter.IsBonus() && completionData.SecretKeyword {
 				checkmark2 := c.scene.NewSprite(ImageCompleteMark)
 				checkmark2.Pos.Offset = offset.Add(gmath.Vec{X: -70, Y: 40})
 				c.scene.AddGraphics(checkmark2)
