@@ -15,7 +15,11 @@ type lcdLabel struct {
 	labelBg *ge.Rect
 }
 
-var defaultLCDColor = ge.RGB(0x2a9535)
+var (
+	defaultLCDColor   = ge.RGB(0x2a9535)
+	collisionLCDColor = ge.RGB(0xa32828)
+	successLCDColor   = ge.RGB(0xcec844)
+)
 
 func newLCDLabel(pos gmath.Vec, clr color.RGBA, text string) *lcdLabel {
 	return &lcdLabel{pos: pos, text: text, clr: clr}
@@ -42,6 +46,10 @@ func (l *lcdLabel) Init(scene *ge.Scene) {
 }
 
 func (l *lcdLabel) IsDisposed() bool { return false }
+
+func (l *lcdLabel) SetColor(clr color.RGBA) {
+	l.label.ColorScale.SetColor(clr)
+}
 
 func (l *lcdLabel) Update(delta float64) {
 	l.label.Text = l.text

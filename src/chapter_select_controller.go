@@ -51,19 +51,6 @@ func (c *chapterSelectController) Init(scene *ge.Scene) {
 		c.scene.AddObject(button)
 	}
 
-	// {
-	// 	offset := gmath.Vec{X: 100, Y: 30}
-	// 	pos := offset.Add(gmath.Vec{X: 43 * 4, Y: 43 * 3})
-	// 	n := newChapterNode(pos, "x", true, false)
-	// 	scene.AddObject(n)
-	// }
-	// {
-	// 	offset := gmath.Vec{X: 100, Y: 30}
-	// 	pos := offset.Add(gmath.Vec{X: 42.5 * ((7 * 3) + 4), Y: 42.5 * 3})
-	// 	n := newChapterNode(pos, "x", true, true)
-	// 	scene.AddObject(n)
-	// }
-
 	outline := scene.NewSprite(ImageChapterSelectOutline)
 	outline.Centered = false
 	scene.AddGraphics(outline)

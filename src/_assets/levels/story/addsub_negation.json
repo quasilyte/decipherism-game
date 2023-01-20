@@ -29,7 +29,7 @@
                         {
                          "name":"keywords",
                          "type":"string",
-                         "value":"area\nclone\nmiracle\nvulture\nstar\nsteam\noasis"
+                         "value":"area\nclone\nmiracle\nvulture\nstar\nsteam\noasis\ngist\ngust"
                         }, 
                         {
                          "name":"num_keywords",
@@ -186,6 +186,24 @@
                  "width":96,
                  "x":672,
                  "y":384
+                }, 
+                {
+                 "class":"",
+                 "gid":57,
+                 "height":96,
+                 "id":182,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"I can do this!"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":96,
+                 "x":864,
+                 "y":576
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -194,7 +212,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":182,
+ "nextobjectid":183,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

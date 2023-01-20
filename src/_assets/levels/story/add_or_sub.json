@@ -204,6 +204,24 @@
                  "width":96,
                  "x":864,
                  "y":384
+                }, 
+                {
+                 "class":"",
+                 "gid":57,
+                 "height":96,
+                 "id":131,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"the encoding can\ngo in two ways here!"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":96,
+                 "x":768,
+                 "y":672
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -212,7 +230,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":131,
+ "nextobjectid":132,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

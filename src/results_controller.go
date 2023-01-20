@@ -10,8 +10,9 @@ import (
 )
 
 type resultsController struct {
-	gameState *gameState
-	scene     *ge.Scene
+	gameState     *gameState
+	scene         *ge.Scene
+	newManualPage string
 }
 
 func newResultsController(s *gameState) *resultsController {
@@ -58,6 +59,10 @@ func (c *resultsController) Init(scene *ge.Scene) {
 		textLines = append(textLines, "\n> new blocks are accessible")
 	}
 	textLines = append(textLines, "\npress [enter] to continue")
+	if len(newManualPages) != 0 {
+		c.newManualPage = newManualPages[0]
+		textLines = append(textLines, "\npress [ctrl]+[enter] to see new manual pages")
+	}
 
 	l := scene.NewLabel(FontLCDNormal)
 	l.ColorScale.SetColor(defaultLCDColor)
@@ -70,5 +75,9 @@ func (c *resultsController) Update(delta float64) {
 	if c.gameState.input.ActionIsJustPressed(ActionMenuConfirm) {
 		c.scene.Audio().PauseCurrentMusic()
 		c.scene.Context().ChangeScene(newLevelSelectController(c.gameState))
+	}
+	if c.newManualPage != "" && c.gameState.input.ActionIsJustPressed(ActionInstantRunProgram) {
+		c.scene.Audio().PauseCurrentMusic()
+		c.scene.Context().ChangeScene(newManualControler(c.gameState, c.newManualPage))
 	}
 }

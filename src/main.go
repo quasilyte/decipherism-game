@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"flag"
 	"io"
 	"time"
 
@@ -33,6 +34,7 @@ const (
 	FontLCDSmall resource.FontID = iota
 	FontLCDNormal
 	FontSmall
+	FontHandwrittenSmall
 	FontHandwritten
 )
 
@@ -44,6 +46,7 @@ const (
 	ImageTerminalBg
 	ImageSignal
 	ImagePingParticle
+	ImageHintSticker
 	ImageDialButton
 	ImageDialButtonArrow
 	ImageOnOffButton
@@ -193,10 +196,22 @@ const (
 )
 
 func main() {
+	state := &gameState{
+		data: &persistentGameData{
+			Options: gameOptions{
+				MusicVolumeLevel:   2,
+				EffectsVolumeLevel: 2,
+				CrtShader:          true,
+			},
+		},
+	}
+
+	flag.Parse()
+
 	ctx := ge.NewContext()
 	ctx.Rand.SetSeed(time.Now().Unix())
 	ctx.GameName = "cipher_cracker"
-	ctx.WindowTitle = "Cipher Cracker"
+	ctx.WindowTitle = "Decipherism"
 	ctx.WindowWidth = 1920
 	ctx.WindowHeight = 1080
 	ctx.FullScreen = true
@@ -224,10 +239,11 @@ func main() {
 
 	// Associate font resources.
 	fontResources := map[resource.FontID]resource.Font{
-		FontLCDSmall:    {Path: "font.ttf", Size: 32},
-		FontLCDNormal:   {Path: "font.ttf", Size: 40},
-		FontSmall:       {Path: "sector_017.otf", Size: 36},
-		FontHandwritten: {Path: "TidyHand.ttf", Size: 50},
+		FontLCDSmall:         {Path: "font.ttf", Size: 32},
+		FontLCDNormal:        {Path: "font.ttf", Size: 40},
+		FontSmall:            {Path: "sector_017.otf", Size: 36},
+		FontHandwrittenSmall: {Path: "TidyHand.ttf", Size: 20},
+		FontHandwritten:      {Path: "TidyHand.ttf", Size: 50},
 	}
 	for id, res := range fontResources {
 		ctx.Loader.FontRegistry.Set(id, res)
@@ -242,6 +258,7 @@ func main() {
 		ImageTerminalBg:      {Path: "terminal_bg.png"},
 		ImageSignal:          {Path: "signal.png"},
 		ImagePingParticle:    {Path: "ping_particle.png"},
+		ImageHintSticker:     {Path: "hint_sticker.png"},
 		ImageDialButton:      {Path: "dial_button.png"},
 		ImageDialButtonArrow: {Path: "dial_button_arrow.png"},
 		ImageOnOffButton:     {Path: "onoff_toggle.png", FrameWidth: 96},
@@ -358,15 +375,6 @@ func main() {
 		ctx.Loader.PreloadShader(id)
 	}
 
-	state := &gameState{
-		data: &persistentGameData{
-			Options: gameOptions{
-				MusicVolumeLevel:   2,
-				EffectsVolumeLevel: 2,
-				CrtShader:          true,
-			},
-		},
-	}
 	ctx.LoadGameData("save", &state.data)
 
 	// Bind controls.

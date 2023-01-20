@@ -42,4 +42,14 @@ package main
 // > Content modifications:
 // -- A "switch" level now modifies words longer than 5 too
 // -- Done some more manual pages proof reading
-const buildVersion = "5"
+//
+// Build 6.
+// > Gameplay:
+// -- Increased the game speed scale
+// -- Encoding collisions results in red output text
+// -- Encoding success results in gold output text
+// -- "go to manual" action after clearing the level
+// -- Added help stickers to some starting levels
+// > Content modifications:
+// -- Some balance changes
+const buildVersion = "6"

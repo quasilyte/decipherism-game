@@ -80,7 +80,7 @@ func (c *mainMenuController) initUI(offset gmath.Vec) {
 	bgroup.AddButton(reviewNotesButton)
 	reviewNotesButton.Pos.Offset = offset
 	reviewNotesButton.EventActivated.Connect(nil, func(_ *ui.Button) {
-		c.scene.Context().ChangeScene(newManualControler(c.gameState))
+		c.scene.Context().ChangeScene(newManualControler(c.gameState, ""))
 	})
 	c.scene.AddObject(reviewNotesButton)
 

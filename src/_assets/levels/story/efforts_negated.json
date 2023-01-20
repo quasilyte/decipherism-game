@@ -41,7 +41,7 @@
                         {
                          "name":"keywords",
                          "type":"string",
-                         "value":"asylum\ntea\nalpha\narena\nwasteland\nwaterfall\n"
+                         "value":"asylum\ntea\nalpha\narena\ngold\napex\nunity"
                         }, 
                         {
                          "name":"num_keywords",
@@ -257,6 +257,42 @@
                  "width":96,
                  "x":768,
                  "y":480
+                }, 
+                {
+                 "class":"",
+                 "gid":57,
+                 "height":96,
+                 "id":157,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"some operations can\nnegate each other"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":96,
+                 "x":192,
+                 "y":192
+                }, 
+                {
+                 "class":"",
+                 "gid":57,
+                 "height":96,
+                 "id":158,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"red output text\nis encoding collision"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":96,
+                 "x":192,
+                 "y":384
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -265,7 +301,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":157,
+ "nextobjectid":159,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

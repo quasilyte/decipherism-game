@@ -10,11 +10,12 @@ import (
 )
 
 type gameState struct {
-	input   *input.Handler
-	chapter *storyModeChapter
-	level   storyModeLevel
-	data    *persistentGameData
-	content contentStatus
+	input      *input.Handler
+	chapter    *storyModeChapter
+	level      storyModeLevel
+	data       *persistentGameData
+	content    contentStatus
+	userFolder string
 }
 
 type chapterCompletionData struct {
@@ -129,7 +130,7 @@ var theStoryModeMap = &storyModeMap{
 			name:     "bonus2",
 			requires: "story2",
 			levels: []string{
-				"swap_shifter",
+				"polygraphic_atbash",
 				"sub_loop",
 				"branchless_encoder",
 			},
@@ -210,7 +211,7 @@ var theStoryModeMap = &storyModeMap{
 			keyword:  "thunder",
 			levels: []string{
 				"atbash",
-				"polygraphic_atbash",
+				"swap_shifter",
 				"determination",
 			},
 			gridPos: gmath.Vec{X: 2, Y: 0},

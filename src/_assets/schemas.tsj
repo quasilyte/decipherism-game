@@ -8,7 +8,7 @@
  "margin":0,
  "name":"schemas",
  "spacing":0,
- "tilecount":52,
+ "tilecount":53,
  "tiledversion":"1.9.2",
  "tileheight":96,
  "tiles":[
@@ -417,6 +417,19 @@
                  "name":"num_keywords",
                  "type":"int",
                  "value":4
+                }]
+        }, 
+        {
+         "class":"hint",
+         "id":56,
+         "image":"..\/_map_edit\/hint.png",
+         "imageheight":96,
+         "imagewidth":96,
+         "properties":[
+                {
+                 "name":"text",
+                 "type":"string",
+                 "value":""
                 }]
         }],
  "tilewidth":96,

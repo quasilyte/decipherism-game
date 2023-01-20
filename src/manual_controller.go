@@ -19,10 +19,15 @@ type manualController struct {
 	bg           *ge.Sprite
 	illustration *ge.Sprite
 	text         *ge.Label
+
+	open string
 }
 
-func newManualControler(s *gameState) *manualController {
-	return &manualController{gameState: s}
+func newManualControler(s *gameState, open string) *manualController {
+	return &manualController{
+		gameState: s,
+		open:      open,
+	}
 }
 
 func (c *manualController) Init(scene *ge.Scene) {
@@ -56,7 +61,17 @@ func (c *manualController) Init(scene *ge.Scene) {
 	c.illustration.Pos.Offset.X = 1370
 	scene.AddGraphics(c.illustration)
 
-	c.flipPage(c.pagesAvailable[0])
+	pageIndex := 0
+	if c.open != "" {
+		for i, p := range c.pagesAvailable {
+			if p.title == c.open {
+				pageIndex = i
+				break
+			}
+		}
+	}
+	c.pageSlider.TrySetValue(pageIndex)
+	c.flipPage(c.pagesAvailable[pageIndex])
 }
 
 func (c *manualController) flipPage(p gameManualPage) {

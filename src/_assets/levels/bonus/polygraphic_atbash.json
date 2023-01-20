@@ -180,6 +180,24 @@
                  "width":96,
                  "x":480,
                  "y":480
+                }, 
+                {
+                 "class":"",
+                 "gid":57,
+                 "height":96,
+                 "id":132,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"polygraphic ops\naffect 1+ letters"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":96,
+                 "x":864,
+                 "y":672
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -188,7 +206,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":132,
+ "nextobjectid":133,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

@@ -13,6 +13,12 @@ type schemaTemplate struct {
 	elems       []schemaTemplateElem
 	numKeywords int
 	keywords    []string
+	hints       []schemaHintTemplate
+}
+
+type schemaHintTemplate struct {
+	text string
+	pos  gmath.Vec
 }
 
 type schemaTemplateElem struct {
@@ -63,6 +69,14 @@ func tilemapToTemplate(tileset *tiled.Tileset, m *tiled.Map) *schemaTemplate {
 			keywordList := strings.Split(allKeywords, "\n")
 			result.numKeywords = o.GetIntProp("num_keywords", 0)
 			result.keywords = keywordList
+			continue
+		}
+		if t.Class == "hint" {
+			pos := gmath.Vec{X: float64(o.X), Y: float64(o.Y)}
+			result.hints = append(result.hints, schemaHintTemplate{
+				text: o.GetStringProp("text", ""),
+				pos:  pos,
+			})
 			continue
 		}
 		pos := calcObjectPos(o)

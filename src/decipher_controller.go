@@ -25,9 +25,10 @@ type decipherController struct {
 	keywordState   []bool
 	numDecoded     int
 
-	schema      *componentSchema
-	schemaNodes []*schemaElemNode
-	ioLogs      []string
+	schema       *componentSchema
+	schemaNodes  []*schemaElemNode
+	stickerNodes []*stickerNode
+	ioLogs       []string
 
 	schemaBg     *ge.Sprite
 	terminalBg   *ge.Sprite
@@ -127,9 +128,9 @@ func (c *decipherController) Init(scene *ge.Scene) {
 	speedDial := newDialButton(uiRoot, gmath.Vec{X: 96 + 160, Y: 896 + 32}, 5)
 	speedDial.state = 2
 	scene.AddObject(speedDial)
-	c.signalNodeSpeed = 90 * 3
+	c.signalNodeSpeed = 120 * float64(speedDial.state+1)
 	speedDial.EventActivated.Connect(nil, func(speedLevel int) {
-		c.signalNodeSpeed = 90 * float64(speedLevel+1)
+		c.signalNodeSpeed = 120 * float64(speedLevel+1)
 		if c.signalNode != nil {
 			c.signalNode.speed = c.signalNodeSpeed
 		}
@@ -141,6 +142,12 @@ func (c *decipherController) Init(scene *ge.Scene) {
 		node := newSchemaElemNode(e, c.gameState.data.Options.CrtShader)
 		scene.AddObject(node)
 		c.schemaNodes = append(c.schemaNodes, node)
+	}
+
+	for _, h := range c.config.levelTemplate.hints {
+		hintNode := newStickerNode(h.pos, h.text)
+		scene.AddObject(hintNode)
+		c.stickerNodes = append(c.stickerNodes, hintNode)
 	}
 
 	c.componentInput = newComponentInput(c.gameState.input, gmath.Vec{X: 1568 - 256 - 16, Y: 96}, c.config.advancedInput)
@@ -233,7 +240,8 @@ func (c *decipherController) onProgramCompleted(output string) {
 		c.signalNode = nil
 	}
 	c.outputLabel.text = output
-	c.statusLabel.text = "ready"
+	c.statusLabel.text = "READY"
+	c.outputLabel.SetColor(defaultLCDColor)
 
 	if len(c.ioLogs) < 3 {
 		c.ioLogs = append(c.ioLogs, c.simulationInput+" -> "+output)
@@ -251,6 +259,7 @@ func (c *decipherController) onProgramCompleted(output string) {
 		})
 		if completionData != nil {
 			completionData.SecretKeyword = true
+			c.outputLabel.SetColor(successLCDColor)
 			c.scene.Context().SaveGameData("save", *c.gameState.data)
 		}
 		return
@@ -260,6 +269,7 @@ func (c *decipherController) onProgramCompleted(output string) {
 	if i != -1 && !c.keywordState[i] {
 		c.keywordState[i] = true
 		c.keywordToggles[i].FrameOffset.X = 96
+		c.outputLabel.SetColor(successLCDColor)
 		c.scene.Context().Audio.PlaySound(AudioDecodingSuccess)
 		c.numDecoded++
 		if c.numDecoded == len(c.keywordToggles) {
@@ -270,6 +280,7 @@ func (c *decipherController) onProgramCompleted(output string) {
 
 	if i := xslices.Index(c.schema.encodedKeywords, output); i != -1 {
 		c.gameState.data.SawCollision = true
+		c.outputLabel.SetColor(collisionLCDColor)
 		c.scene.Context().Audio.PlaySound(AudioCollision)
 		return
 	}
@@ -346,6 +357,9 @@ func (c *decipherController) swapMode() {
 		for _, e := range c.schemaNodes {
 			e.sprite.SetAlpha(1)
 		}
+		for _, hint := range c.stickerNodes {
+			hint.sprite.SetAlpha(1)
+		}
 		if c.signalNode != nil {
 			c.signalNode.sprite.SetAlpha(1)
 		}
@@ -356,6 +370,9 @@ func (c *decipherController) swapMode() {
 		c.schemaBg.Visible = false
 		for _, e := range c.schemaNodes {
 			e.sprite.SetAlpha(0.2)
+		}
+		for _, hint := range c.stickerNodes {
+			hint.sprite.SetAlpha(0.3)
 		}
 		if c.signalNode != nil {
 			c.signalNode.sprite.SetAlpha(0.5)
@@ -444,6 +461,7 @@ func (c *decipherController) Update(delta float64) {
 			c.paused = false
 			c.statusLabel.text = "RUNNING"
 			c.outputLabel.text = "?"
+			c.outputLabel.SetColor(defaultLCDColor)
 			c.simulationInput = string(c.componentInput.text)
 			c.runner.Reset(c.schema, c.componentInput.text)
 			c.signalNode = newSignalNode(c.schema.entry.pos)

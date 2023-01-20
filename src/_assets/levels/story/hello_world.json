@@ -77,7 +77,7 @@
                         {
                          "name":"keywords",
                          "type":"string",
-                         "value":"gargoyle\nphoenix\nsphynx\ncentaur\nwerewolf\ngolem"
+                         "value":"gargoyle\nphoenix\nsphynx\ncentaur\nwerewolf\ngolem\nsatyr\nmedusa"
                         }, 
                         {
                          "name":"num_keywords",
@@ -89,6 +89,42 @@
                  "width":96,
                  "x":0,
                  "y":768
+                }, 
+                {
+                 "class":"",
+                 "gid":57,
+                 "height":96,
+                 "id":119,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"[enter] runs a\nprogram"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":96,
+                 "x":864,
+                 "y":672
+                }, 
+                {
+                 "class":"",
+                 "gid":57,
+                 "height":96,
+                 "id":120,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"INPUT is controlled\nby my keyboard"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":96,
+                 "x":480,
+                 "y":672
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -97,7 +133,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":119,
+ "nextobjectid":121,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
