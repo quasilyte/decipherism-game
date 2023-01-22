@@ -5,6 +5,7 @@ import (
 	"flag"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -214,6 +215,12 @@ func main() {
 	flag.Parse()
 
 	state.userFolder = strings.ReplaceAll(state.userFolder, "$DECIPHERISM_DATA", os.Getenv("DECIPHERISM_DATA"))
+	if state.userFolder == "" {
+		absPath, err := filepath.Abs(os.Args[0])
+		if err == nil {
+			state.userFolder = filepath.Dir(absPath)
+		}
+	}
 
 	ctx := ge.NewContext()
 	ctx.Rand.SetSeed(time.Now().Unix())
