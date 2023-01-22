@@ -26,7 +26,7 @@ type decipherController struct {
 	keywordState   []bool
 	numDecoded     int
 
-	schema       *componentSchema
+	schema       *leveldata.ComponentSchema
 	schemaNodes  []*schemaElemNode
 	stickerNodes []*stickerNode
 	ioLogs       []string
@@ -139,7 +139,7 @@ func (c *decipherController) Init(scene *ge.Scene) {
 
 	c.initComponentSchema(c.schemaBg.Pos.Offset)
 
-	for _, e := range c.schema.elems {
+	for _, e := range c.schema.Elems {
 		node := newSchemaElemNode(e, c.gameState.data.Options.CrtShader)
 		scene.AddObject(node)
 		c.schemaNodes = append(c.schemaNodes, node)
@@ -158,13 +158,13 @@ func (c *decipherController) Init(scene *ge.Scene) {
 	keywordsTitle := c.newLabel(gmath.Vec{X: 1568 - 256 - 16, Y: 96*4 + 32}, "ENCODED KEYWORDS")
 	scene.AddGraphics(keywordsTitle)
 
-	c.schema.encodedKeywords = make([]string, len(c.keywords))
+	c.schema.EncodedKeywords = make([]string, len(c.keywords))
 	for i, keyword := range c.keywords {
-		c.schema.encodedKeywords[i] = c.encodeKeyword(keyword)
+		c.schema.EncodedKeywords[i] = c.encodeKeyword(keyword)
 	}
 
 	offset := gmath.Vec{X: 1568 - 256 - 16, Y: 96*5 + 32}
-	for _, keyword := range c.schema.encodedKeywords {
+	for _, keyword := range c.schema.EncodedKeywords {
 		l := newLCDLabel(offset, defaultLCDColor, keyword)
 		scene.AddObject(l)
 		offset.Y += 96
@@ -178,8 +178,8 @@ func (c *decipherController) Init(scene *ge.Scene) {
 	}
 
 	var branches []string
-	for _, e := range c.schema.elems {
-		info, ok := e.extraData.(*leveldata.IfElemExtra)
+	for _, e := range c.schema.Elems {
+		info, ok := e.ExtraData.(*leveldata.IfElemExtra)
 		if !ok {
 			continue
 		}
@@ -223,13 +223,13 @@ func (c *decipherController) clearLevel() {
 		completionData.SecretKeyword = true
 	}
 
-	c.gameState.data.SolvedCondTransform = c.gameState.data.SolvedCondTransform || c.schema.hasCondTransform
-	c.gameState.data.SolvedPolygraphic = c.gameState.data.SolvedPolygraphic || c.schema.hasPolygraphic
-	c.gameState.data.SolvedAtbash = c.gameState.data.SolvedAtbash || c.schema.hasAtbash
-	c.gameState.data.SolvedRot13 = c.gameState.data.SolvedRot13 || c.schema.hasRot13
-	c.gameState.data.SolvedIncDec = c.gameState.data.SolvedIncDec || c.schema.hasIncDec
-	c.gameState.data.SolvedShift = c.gameState.data.SolvedShift || c.schema.hasShift
-	c.gameState.data.SolvedNegation = c.gameState.data.SolvedNegation || c.schema.hasNegation
+	c.gameState.data.SolvedCondTransform = c.gameState.data.SolvedCondTransform || c.schema.HasCondTransform
+	c.gameState.data.SolvedPolygraphic = c.gameState.data.SolvedPolygraphic || c.schema.HasPolygraphic
+	c.gameState.data.SolvedAtbash = c.gameState.data.SolvedAtbash || c.schema.HasAtbash
+	c.gameState.data.SolvedRot13 = c.gameState.data.SolvedRot13 || c.schema.HasRot13
+	c.gameState.data.SolvedIncDec = c.gameState.data.SolvedIncDec || c.schema.HasIncDec
+	c.gameState.data.SolvedShift = c.gameState.data.SolvedShift || c.schema.HasShift
+	c.gameState.data.SolvedNegation = c.gameState.data.SolvedNegation || c.schema.HasNegation
 
 	c.scene.Context().SaveGameData("save", *c.gameState.data)
 	c.scene.Context().ChangeScene(newResultsController(c.gameState))
@@ -279,7 +279,7 @@ func (c *decipherController) onProgramCompleted(output string) {
 		return
 	}
 
-	if i := xslices.Index(c.schema.encodedKeywords, output); i != -1 {
+	if i := xslices.Index(c.schema.EncodedKeywords, output); i != -1 {
 		c.gameState.data.SawCollision = true
 		c.outputLabel.SetColor(collisionLCDColor)
 		c.scene.Context().Audio.PlaySound(AudioCollision)
@@ -407,8 +407,8 @@ func (c *decipherController) Update(delta float64) {
 			action := ActionPasteKeyword1 + input.Action(i)
 			if c.gameState.input.ActionIsJustPressed(action) {
 				c.gameState.data.UsedHiddenKeybinds = true
-				if len(c.schema.encodedKeywords) > i {
-					c.componentInput.SetText(c.schema.encodedKeywords[i])
+				if len(c.schema.EncodedKeywords) > i {
+					c.componentInput.SetText(c.schema.EncodedKeywords[i])
 				}
 				return
 			}
@@ -465,7 +465,7 @@ func (c *decipherController) Update(delta float64) {
 			c.outputLabel.SetColor(defaultLCDColor)
 			c.simulationInput = string(c.componentInput.text)
 			c.runner.Reset(c.schema, c.componentInput.text)
-			c.signalNode = newSignalNode(c.schema.entry.pos)
+			c.signalNode = newSignalNode(c.schema.Entry.Pos)
 			c.signalNode.speed = c.signalNodeSpeed
 			c.prepareNextStep(c.signalNode)
 			c.signalNode.EventDestinationReached.Connect(nil, c.nextStep)
@@ -476,8 +476,12 @@ func (c *decipherController) Update(delta float64) {
 }
 
 func (c *decipherController) initComponentSchema(offset gmath.Vec) {
-	c.schema = newSchemaBuilder(offset, c.config.levelTemplate).Build()
-	c.keywords = append([]string{}, c.schema.keywords...)
+	schema, err := leveldata.NewSchemaBuilder(offset, c.config.levelTemplate).Build()
+	if err != nil {
+		panic(err)
+	}
+	c.schema = schema
+	c.keywords = append([]string{}, c.schema.Keywords...)
 	gmath.Shuffle(c.scene.Rand(), c.keywords)
-	c.keywords = c.keywords[:c.schema.numKeywords]
+	c.keywords = c.keywords[:c.schema.NumKeywords]
 }

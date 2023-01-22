@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/quasilyte/decipherism-game/leveldata"
 	"github.com/quasilyte/ge"
 	"github.com/quasilyte/ge/tiled"
 	"github.com/quasilyte/ge/ui"
@@ -57,7 +58,7 @@ func (c *levelSelectController) Init(scene *ge.Scene) {
 		for i, levelName := range chapter.levels {
 			level := theStoryModeMap.levels[levelName]
 			levelData := scene.LoadRaw(level.id)
-			schema := decodeSchema(gmath.Vec{}, tileset, levelData)
+			schema := leveldata.DecodeSchema(gmath.Vec{}, tileset, levelData)
 			completionData := c.gameState.GetLevelCompletionData(levelName)
 			if completionData != nil && completionData.SecretKeyword {
 				levelStrings[i] += "  (" + strings.ToUpper(string(inputData)) + ")"

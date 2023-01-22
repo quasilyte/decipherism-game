@@ -8,7 +8,7 @@ import (
 )
 
 type schemaElemNode struct {
-	data *schemaElem
+	data *leveldata.SchemaElem
 
 	rotation gmath.Rad
 
@@ -21,20 +21,20 @@ type schemaElemNode struct {
 	sprite *ge.Sprite
 }
 
-func newSchemaElemNode(data *schemaElem, shaderEnabled bool) *schemaElemNode {
+func newSchemaElemNode(data *leveldata.SchemaElem, shaderEnabled bool) *schemaElemNode {
 	return &schemaElemNode{
 		data:          data,
-		rotation:      data.rotation,
+		rotation:      data.Rotation,
 		shaderEnabled: shaderEnabled,
 	}
 }
 
 func (n *schemaElemNode) Init(scene *ge.Scene) {
-	imageID := resource.ImageID(n.data.tileClassID) + componentSchemaImageOffset + 1
+	imageID := resource.ImageID(n.data.TileClassID) + componentSchemaImageOffset + 1
 	n.sprite = scene.NewSprite(imageID)
-	n.sprite.Pos.Base = &n.data.pos
+	n.sprite.Pos.Base = &n.data.Pos
 	n.sprite.Rotation = &n.rotation
-	if extra, ok := n.data.extraData.(*leveldata.AngleElemExtra); ok {
+	if extra, ok := n.data.ExtraData.(*leveldata.AngleElemExtra); ok {
 		n.sprite.FlipHorizontal = extra.FlipHorizontally
 	}
 	scene.AddGraphics(n.sprite)

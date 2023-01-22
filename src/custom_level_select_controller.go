@@ -9,7 +9,9 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/quasilyte/decipherism-game/leveldata"
 	"github.com/quasilyte/ge"
+	"github.com/quasilyte/ge/tiled"
 	"github.com/quasilyte/ge/ui"
 	"github.com/quasilyte/gmath"
 )
@@ -172,6 +174,10 @@ func (c *customLevelSelectController) scanCustomLevels() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	tileset, err := tiled.UnmarshalTileset(c.scene.LoadRaw(RawComponentSchemaTilesetJSON))
+	if err != nil {
+		panic(err)
+	}
 	for _, f := range files {
 		if !strings.HasSuffix(f.Name(), ".json") {
 			continue
@@ -182,7 +188,7 @@ func (c *customLevelSelectController) scanCustomLevels() ([]string, error) {
 			fmt.Printf("[ERROR] load %q: %v\n", f.Name(), err)
 			continue
 		}
-		if _, err := loadLevelTemplate(c.scene, data); err != nil {
+		if err := leveldata.ValidateLevelData(tileset, data); err != nil {
 			fmt.Printf("[ERROR] load %q: %v\n", f.Name(), err)
 			continue
 		}

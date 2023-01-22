@@ -9,11 +9,11 @@ import (
 )
 
 type schemaRunner struct {
-	schema   *componentSchema
-	current  *schemaElem
+	schema   *leveldata.ComponentSchema
+	current  *leveldata.SchemaElem
 	input    []byte
 	data     []byte
-	counters [numSchemaCols * numSchemaRows]uint8
+	counters [leveldata.NumSchemaCols * leveldata.NumSchemaRows]uint8
 	lastCond bool
 }
 
@@ -23,7 +23,7 @@ func newSchemaRunner() *schemaRunner {
 	}
 }
 
-func (r *schemaRunner) Exec(s *componentSchema, k string) string {
+func (r *schemaRunner) Exec(s *leveldata.ComponentSchema, k string) string {
 	r.Reset(s, []byte(k))
 	for {
 		_, hasMore := r.RunStep()
@@ -34,16 +34,16 @@ func (r *schemaRunner) Exec(s *componentSchema, k string) string {
 	return string(r.data)
 }
 
-func (r *schemaRunner) Reset(s *componentSchema, input []byte) {
+func (r *schemaRunner) Reset(s *leveldata.ComponentSchema, input []byte) {
 	r.schema = s
-	r.current = s.entry
+	r.current = s.Entry
 	r.lastCond = false
 
-	r.counters = [numSchemaCols * numSchemaRows]uint8{}
-	for _, e := range r.schema.elems {
-		countdownData, ok := e.extraData.(*leveldata.CountdownElemExtra)
+	r.counters = [leveldata.NumSchemaCols * leveldata.NumSchemaRows]uint8{}
+	for _, e := range r.schema.Elems {
+		countdownData, ok := e.ExtraData.(*leveldata.CountdownElemExtra)
 		if ok {
-			r.counters[e.elemID] = uint8(countdownData.InitialValue)
+			r.counters[e.ElemID] = uint8(countdownData.InitialValue)
 		}
 	}
 
@@ -53,57 +53,57 @@ func (r *schemaRunner) Reset(s *componentSchema, input []byte) {
 }
 
 func (r *schemaRunner) RunStep() (gmath.Vec, bool) {
-	if r.current.tileClass == "elem_output" {
+	if r.current.TileClass == "elem_output" {
 		return gmath.Vec{}, false
 	}
 
 	var dst gmath.Vec
-	switch r.current.kind {
-	case transformElem:
+	switch r.current.Kind {
+	case leveldata.TransformElem:
 		r.runTransformElem()
-		r.current = r.current.next[0]
-		dst = r.current.pos
-	case muxElem:
-		r.current = r.current.next[0]
-		dst = r.current.pos
-	case simplePipeElem, pipeConnect2Elem, inputElem:
-		r.current = r.current.next[0]
-		dst = r.current.pos
-	case ifElem:
-		switch r.current.tileClass {
+		r.current = r.current.Next[0]
+		dst = r.current.Pos
+	case leveldata.MuxElem:
+		r.current = r.current.Next[0]
+		dst = r.current.Pos
+	case leveldata.SimplePipeElem, leveldata.PipeConnect2Elem, leveldata.InputElem:
+		r.current = r.current.Next[0]
+		dst = r.current.Pos
+	case leveldata.IfElem:
+		switch r.current.TileClass {
 		case "elem_ifnot":
 			r.current = r.runIfNot()
-			dst = r.current.pos
+			dst = r.current.Pos
 		case "elem_if":
 			r.current = r.runIf()
-			dst = r.current.pos
+			dst = r.current.Pos
 		case "elem_repeater":
 			r.current = r.runRepeater()
-			dst = r.current.pos
+			dst = r.current.Pos
 		case "elem_inv_repeater":
 			r.current = r.runInvRepeater()
-			dst = r.current.pos
+			dst = r.current.Pos
 		case "elem_countdown0", "elem_countdown1", "elem_countdown2", "elem_countdown3":
-			value := r.counters[r.current.elemID]
+			value := r.counters[r.current.ElemID]
 			if value != 0 {
-				r.counters[r.current.elemID]--
-				r.current = r.current.next[0]
+				r.counters[r.current.ElemID]--
+				r.current = r.current.Next[0]
 			} else {
-				r.current = r.current.next[1]
+				r.current = r.current.Next[1]
 			}
-			dst = r.current.pos
+			dst = r.current.Pos
 		default:
-			panic(fmt.Sprintf("unexpected if: %q", r.current.tileClass))
+			panic(fmt.Sprintf("unexpected if: %q", r.current.TileClass))
 		}
 	default:
-		panic(fmt.Sprintf("unhandled %q", r.current.tileClass))
+		panic(fmt.Sprintf("unhandled %q", r.current.TileClass))
 	}
 
 	return dst, true
 }
 
 func (r *schemaRunner) runTransformElem() {
-	switch r.current.tileClass {
+	switch r.current.TileClass {
 	case "apply_reverse":
 		r.runElemReverse()
 	case "apply_swap_halves":
@@ -178,7 +178,7 @@ func (r *schemaRunner) runTransformElem() {
 		r.runZigzag(r.data)
 
 	default:
-		panic(fmt.Sprintf("unexpected transform: %q", r.current.tileClass))
+		panic(fmt.Sprintf("unexpected transform: %q", r.current.TileClass))
 	}
 }
 
@@ -255,7 +255,7 @@ func (r *schemaRunner) runElemReverse() {
 }
 
 func (r *schemaRunner) evalIfCond() bool {
-	extra := r.current.extraData.(*leveldata.IfElemExtra)
+	extra := r.current.ExtraData.(*leveldata.IfElemExtra)
 	result := false
 	switch extra.CondKind {
 	case "anagram":
@@ -294,32 +294,32 @@ func (r *schemaRunner) evalIfCond() bool {
 	return result
 }
 
-func (r *schemaRunner) runRepeater() *schemaElem {
+func (r *schemaRunner) runRepeater() *leveldata.SchemaElem {
 	if r.lastCond {
-		return r.current.next[0]
+		return r.current.Next[0]
 	}
-	return r.current.next[1]
+	return r.current.Next[1]
 }
 
-func (r *schemaRunner) runInvRepeater() *schemaElem {
+func (r *schemaRunner) runInvRepeater() *leveldata.SchemaElem {
 	if !r.lastCond {
-		return r.current.next[0]
+		return r.current.Next[0]
 	}
-	return r.current.next[1]
+	return r.current.Next[1]
 }
 
-func (r *schemaRunner) runIfNot() *schemaElem {
+func (r *schemaRunner) runIfNot() *leveldata.SchemaElem {
 	r.lastCond = !r.evalIfCond()
 	if r.lastCond {
-		return r.current.next[0]
+		return r.current.Next[0]
 	}
-	return r.current.next[1]
+	return r.current.Next[1]
 }
 
-func (r *schemaRunner) runIf() *schemaElem {
+func (r *schemaRunner) runIf() *leveldata.SchemaElem {
 	r.lastCond = r.evalIfCond()
 	if r.lastCond {
-		return r.current.next[0]
+		return r.current.Next[0]
 	}
-	return r.current.next[1]
+	return r.current.Next[1]
 }

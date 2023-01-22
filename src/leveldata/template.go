@@ -43,6 +43,15 @@ type IfElemExtra struct {
 	IntArg    int
 }
 
+func ValidateLevelData(tileset *tiled.Tileset, levelData []byte) error {
+	tmpl, err := LoadLevelTemplate(tileset, levelData)
+	if err != nil {
+		return err
+	}
+	_, err = NewSchemaBuilder(gmath.Vec{}, tmpl).Build()
+	return err
+}
+
 func LoadLevelTemplate(tileset *tiled.Tileset, levelData []byte) (*SchemaTemplate, error) {
 	m, err := tiled.UnmarshalMap(levelData)
 	if err != nil {
@@ -75,15 +84,10 @@ func TilemapToTemplate(tileset *tiled.Tileset, m *tiled.Map) (*SchemaTemplate, e
 	ref := m.Tilesets[0]
 	layer := m.Layers[0]
 
-	numInputs := 0
 	foundSettings := false
 	for _, o := range layer.Objects {
 		id := o.GID - ref.FirstGID
 		t := tileset.TileByID(id)
-		if t.Class == "elem_input" {
-			numInputs++
-			continue
-		}
 		pos := calcObjectPos(o)
 		if t.Class == "settings" {
 			if foundSettings {
@@ -146,10 +150,6 @@ func TilemapToTemplate(tileset *tiled.Tileset, m *tiled.Map) (*SchemaTemplate, e
 			elem.ExtraData = extra
 		}
 		elemList = append(elemList, elem)
-	}
-
-	if numInputs != 1 {
-		return nil, fmt.Errorf("schema should have exactly 1 IN (input) elements, found %d", numInputs)
 	}
 
 	result.Elems = elemList

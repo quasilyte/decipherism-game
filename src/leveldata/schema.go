@@ -1,40 +1,56 @@
-package main
+package leveldata
 
 import (
-	"fmt"
 	"math"
 	"strings"
 
-	"github.com/quasilyte/decipherism-game/leveldata"
 	"github.com/quasilyte/gmath"
 )
 
-type schemaElemKind int
+type ComponentSchema struct {
+	Entry *SchemaElem
+
+	Elems []*SchemaElem
+
+	NumKeywords     int
+	Keywords        []string
+	EncodedKeywords []string
+
+	HasCondTransform bool
+	HasPolygraphic   bool
+	HasAtbash        bool
+	HasRot13         bool
+	HasIncDec        bool
+	HasShift         bool
+	HasNegation      bool
+}
+
+type SchemaElemKind int
 
 const (
-	unknownElem schemaElemKind = iota
-	inputElem
-	outputElem
-	muxElem
-	simplePipeElem
-	pipeConnect2Elem
-	ifElem
-	transformElem
+	UnknownElem SchemaElemKind = iota
+	InputElem
+	OutputElem
+	MuxElem
+	SimplePipeElem
+	PipeConnect2Elem
+	IfElem
+	TransformElem
 )
 
-type schemaElem struct {
-	elemID      int
-	tileClassID int
-	tileClass   string
-	kind        schemaElemKind
+type SchemaElem struct {
+	ElemID      int
+	TileClassID int
+	TileClass   string
+	Kind        SchemaElemKind
 
-	next []*schemaElem
+	Next []*SchemaElem
 
-	pos gmath.Vec
+	Pos gmath.Vec
 
-	rotation gmath.Rad
+	Rotation gmath.Rad
 
-	extraData any
+	ExtraData any
 }
 
 func getElemShape(class string, pos gmath.Vec, rotation gmath.Rad, extraData any) elemShape {
@@ -69,7 +85,7 @@ func getElemShape(class string, pos gmath.Vec, rotation gmath.Rad, extraData any
 		//
 		startRotation := rotation
 		endRotation := rotation + (math.Pi / 2)
-		extra := extraData.(*leveldata.AngleElemExtra)
+		extra := extraData.(*AngleElemExtra)
 		if extra.FlipHorizontally {
 			startRotation += math.Pi
 		}
@@ -106,29 +122,29 @@ func getElemShape(class string, pos gmath.Vec, rotation gmath.Rad, extraData any
 	return shape
 }
 
-func getSchemaElemKind(tileClass string) schemaElemKind {
+func getSchemaElemKind(tileClass string) SchemaElemKind {
 	switch tileClass {
 	case "elem_input":
-		return inputElem
+		return InputElem
 	case "elem_output":
-		return outputElem
+		return OutputElem
 	case "elem_mux":
-		return muxElem
+		return MuxElem
 	case "elem_if", "elem_ifnot", "elem_repeater", "elem_inv_repeater":
-		return ifElem
+		return IfElem
 	case "pipe_connect2":
-		return pipeConnect2Elem
+		return PipeConnect2Elem
 	}
 
 	if strings.HasPrefix(tileClass, "apply_") {
-		return transformElem
+		return TransformElem
 	}
 	if strings.Contains(tileClass, "_countdown") {
-		return ifElem
+		return IfElem
 	}
 	if strings.Contains(tileClass, "pipe") {
-		return simplePipeElem
+		return SimplePipeElem
 	}
 
-	panic(fmt.Sprintf("unexpected %q class", tileClass))
+	return UnknownElem
 }
