@@ -117,15 +117,7 @@ func (c *levelSelectController) initUI(offset gmath.Vec) {
 				storyMode:     true,
 			}
 			c.initDecipherConfig(content, &config)
-			tileset, err := tiled.UnmarshalTileset(c.scene.LoadRaw(RawComponentSchemaTilesetJSON))
-			if err != nil {
-				panic(err)
-			}
-			m, err := tiled.UnmarshalMap(c.scene.LoadRaw(c.gameState.level.id))
-			if err != nil {
-				panic(err)
-			}
-			config.levelTemplate = tilemapToTemplate(tileset, m)
+			config.levelTemplate = loadLevelTemplate(c.scene, c.scene.LoadRaw(c.gameState.level.id))
 			c.scene.Context().ChangeScene(newDecipherController(c.gameState, config))
 		})
 		completionData := c.gameState.GetLevelCompletionData(levelName)

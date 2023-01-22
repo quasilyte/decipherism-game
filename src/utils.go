@@ -1,6 +1,8 @@
 package main
 
-import "hash/fnv"
+import (
+	"hash/fnv"
+)
 
 func fnvhash(b []byte) uint64 {
 	hash := fnv.New64a()

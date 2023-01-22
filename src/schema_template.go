@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/quasilyte/ge"
 	"github.com/quasilyte/ge/tiled"
 	"github.com/quasilyte/gmath"
 )
@@ -27,6 +28,18 @@ type schemaTemplateElem struct {
 	rotation  gmath.Rad
 	extraData any
 	pos       gmath.Vec
+}
+
+func loadLevelTemplate(scene *ge.Scene, levelData []byte) *schemaTemplate {
+	tileset, err := tiled.UnmarshalTileset(scene.LoadRaw(RawComponentSchemaTilesetJSON))
+	if err != nil {
+		panic(err)
+	}
+	m, err := tiled.UnmarshalMap(levelData)
+	if err != nil {
+		panic(err)
+	}
+	return tilemapToTemplate(tileset, m)
 }
 
 func tilemapToTemplate(tileset *tiled.Tileset, m *tiled.Map) *schemaTemplate {

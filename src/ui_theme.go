@@ -19,7 +19,10 @@ func init() {
 	optionsButtonStyle.BorderColor.SetColor(defaultLCDColor)
 	optionsButtonStyle.FocusedBackgroundColor = optionsButtonStyle.BackgroundColor
 	optionsButtonStyle.FocusedBorderColor = optionsButtonStyle.BorderColor
-	optionsButtonStyle.FocusedTextColor.SetColor(ge.RGB(0x2eb43c))
+	optionsButtonStyle.FocusedTextColor.SetColor(ge.RGB(0xcec844))
+	optionsButtonStyle.DisabledBackgroundColor = optionsButtonStyle.BackgroundColor
+	optionsButtonStyle.DisabledBorderColor = optionsButtonStyle.BorderColor
+	optionsButtonStyle.DisabledTextColor = optionsButtonStyle.TextColor
 
 	invisibleButtonStyle = ui.DefaultButtonStyle()
 	invisibleButtonStyle.BorderWidth = 0

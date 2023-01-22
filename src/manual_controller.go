@@ -33,6 +33,10 @@ func newManualControler(s *gameState, open string) *manualController {
 func (c *manualController) Init(scene *ge.Scene) {
 	c.scene = scene
 
+	if c.gameState.data.Options.MusicVolumeLevel != 0 {
+		scene.Audio().ContinueMusic(AudioMenuMusic)
+	}
+
 	content := calculateContentStatus(c.gameState)
 	for _, p := range theGameManual.pages {
 		if xslices.Contains(content.manualPages, p.title) {

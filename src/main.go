@@ -4,6 +4,8 @@ import (
 	"embed"
 	"flag"
 	"io"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/quasilyte/ge"
@@ -31,7 +33,8 @@ const (
 )
 
 const (
-	FontLCDSmall resource.FontID = iota
+	FontLCDTiny resource.FontID = iota
+	FontLCDSmall
 	FontLCDNormal
 	FontSmall
 	FontHandwrittenSmall
@@ -206,7 +209,11 @@ func main() {
 		},
 	}
 
+	flag.StringVar(&state.userFolder, "user-data", "$DECIPHERISM_DATA",
+		`a path to a folder that contains user-defined content for the game`)
 	flag.Parse()
+
+	state.userFolder = strings.ReplaceAll(state.userFolder, "$DECIPHERISM_DATA", os.Getenv("DECIPHERISM_DATA"))
 
 	ctx := ge.NewContext()
 	ctx.Rand.SetSeed(time.Now().Unix())
@@ -239,6 +246,7 @@ func main() {
 
 	// Associate font resources.
 	fontResources := map[resource.FontID]resource.Font{
+		FontLCDTiny:          {Path: "font.ttf", Size: 20},
 		FontLCDSmall:         {Path: "font.ttf", Size: 32},
 		FontLCDNormal:        {Path: "font.ttf", Size: 40},
 		FontSmall:            {Path: "sector_017.otf", Size: 36},

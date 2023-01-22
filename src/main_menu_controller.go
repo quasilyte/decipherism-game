@@ -44,6 +44,7 @@ func (c *mainMenuController) Init(scene *ge.Scene) {
 
   -  Adjust  the  options`
 	if runtime.GOARCH != "wasm" {
+		l.Text += "\n\n  -  Run  custom  simulations"
 		l.Text += "\n\n  -  Call  it  a  day"
 	}
 	l.Pos.Offset = offset
@@ -97,6 +98,15 @@ func (c *mainMenuController) initUI(offset gmath.Vec) {
 	offset.Y += 166
 
 	if runtime.GOARCH != "wasm" {
+		customModeButton := uiRoot.NewButton(outlineButtonStyle.Resized(800, 80))
+		bgroup.AddButton(customModeButton)
+		customModeButton.Pos.Offset = offset
+		customModeButton.EventActivated.Connect(nil, func(_ *ui.Button) {
+			c.scene.Context().ChangeScene(newCustomLevelSelectController(c.gameState))
+		})
+		c.scene.AddObject(customModeButton)
+		offset.Y += 166
+
 		exitButton := uiRoot.NewButton(outlineButtonStyle.Resized(460, 80))
 		bgroup.AddButton(exitButton)
 		exitButton.Pos.Offset = offset

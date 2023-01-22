@@ -50,6 +50,7 @@ package main
 // -- Encoding success results in gold output text
 // -- "go to manual" action after clearing the level
 // -- Added help stickers to some starting levels
+// -- New "custom simulations" mode
 // > Content modifications:
 // -- Some balance changes
 const buildVersion = "6"
