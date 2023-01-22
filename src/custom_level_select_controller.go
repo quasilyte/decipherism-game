@@ -74,15 +74,19 @@ func (c *customLevelSelectController) Init(scene *ge.Scene) {
 		b := uiRoot.NewButton(optionsButtonStyle.Resized(buttonWidth, 80))
 		bgroup.AddButton(b)
 		buttonIndex := i
-		b.EventActivated.Connect(nil, func(_ *ui.Button) {
+		b.EventActivated.Connect(nil, func(b *ui.Button) {
 			fileIndex := c.levelButtons[buttonIndex].fileIndex
 			selectedFilename := c.allFilenames[fileIndex]
 			levelData, err := os.ReadFile(selectedFilename)
 			if err != nil {
 				panic(err) // TODO: better error handling
 			}
+			levelTemplate, err := loadLevelTemplate(c.scene, levelData)
+			if err != nil {
+				panic(err) // Should be already verified by this moment
+			}
 			config := decipherConfig{
-				levelTemplate: loadLevelTemplate(c.scene, levelData),
+				levelTemplate: levelTemplate,
 			}
 			c.scene.Context().ChangeScene(newDecipherController(c.gameState, config))
 		})
@@ -172,7 +176,17 @@ func (c *customLevelSelectController) scanCustomLevels() ([]string, error) {
 		if !strings.HasSuffix(f.Name(), ".json") {
 			continue
 		}
-		result = append(result, filepath.Join(levelsPath, f.Name()))
+		fullName := filepath.Join(levelsPath, f.Name())
+		data, err := os.ReadFile(fullName)
+		if err != nil {
+			fmt.Printf("[ERROR] load %q: %v\n", f.Name(), err)
+			continue
+		}
+		if _, err := loadLevelTemplate(c.scene, data); err != nil {
+			fmt.Printf("[ERROR] load %q: %v\n", f.Name(), err)
+			continue
+		}
+		result = append(result, fullName)
 	}
 
 	return result, nil

@@ -1,4 +1,4 @@
-module github.com/quasilyte/ge/examples/cipher
+module github.com/quasilyte/decipherism-game
 
 go 1.18
 

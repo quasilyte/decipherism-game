@@ -2,7 +2,19 @@ package main
 
 import (
 	"hash/fnv"
+
+	"github.com/quasilyte/decipherism-game/leveldata"
+	"github.com/quasilyte/ge"
+	"github.com/quasilyte/ge/tiled"
 )
+
+func loadLevelTemplate(scene *ge.Scene, levelData []byte) (*leveldata.SchemaTemplate, error) {
+	tileset, err := tiled.UnmarshalTileset(scene.LoadRaw(RawComponentSchemaTilesetJSON))
+	if err != nil {
+		panic(err)
+	}
+	return leveldata.LoadLevelTemplate(tileset, levelData)
+}
 
 func fnvhash(b []byte) uint64 {
 	hash := fnv.New64a()

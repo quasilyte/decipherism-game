@@ -117,7 +117,11 @@ func (c *levelSelectController) initUI(offset gmath.Vec) {
 				storyMode:     true,
 			}
 			c.initDecipherConfig(content, &config)
-			config.levelTemplate = loadLevelTemplate(c.scene, c.scene.LoadRaw(c.gameState.level.id))
+			levelTemplate, err := loadLevelTemplate(c.scene, c.scene.LoadRaw(c.gameState.level.id))
+			if err != nil {
+				panic(err) // Builtin level should never contain any errors
+			}
+			config.levelTemplate = levelTemplate
 			c.scene.Context().ChangeScene(newDecipherController(c.gameState, config))
 		})
 		completionData := c.gameState.GetLevelCompletionData(levelName)

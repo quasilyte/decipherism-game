@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/quasilyte/decipherism-game/leveldata"
 	"github.com/quasilyte/ge"
 	"github.com/quasilyte/ge/resource"
 	"github.com/quasilyte/gmath"
@@ -33,8 +34,8 @@ func (n *schemaElemNode) Init(scene *ge.Scene) {
 	n.sprite = scene.NewSprite(imageID)
 	n.sprite.Pos.Base = &n.data.pos
 	n.sprite.Rotation = &n.rotation
-	if extra, ok := n.data.extraData.(*angleElemExtra); ok {
-		n.sprite.FlipHorizontal = extra.flipHorizontally
+	if extra, ok := n.data.extraData.(*leveldata.AngleElemExtra); ok {
+		n.sprite.FlipHorizontal = extra.FlipHorizontally
 	}
 	scene.AddGraphics(n.sprite)
 	if n.shaderEnabled {

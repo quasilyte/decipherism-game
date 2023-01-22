@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 
+	"github.com/quasilyte/decipherism-game/leveldata"
 	"github.com/quasilyte/gmath"
 )
 
@@ -40,9 +41,9 @@ func (r *schemaRunner) Reset(s *componentSchema, input []byte) {
 
 	r.counters = [numSchemaCols * numSchemaRows]uint8{}
 	for _, e := range r.schema.elems {
-		countdownData, ok := e.extraData.(*countdownElemExtra)
+		countdownData, ok := e.extraData.(*leveldata.CountdownElemExtra)
 		if ok {
-			r.counters[e.elemID] = uint8(countdownData.initialValue)
+			r.counters[e.elemID] = uint8(countdownData.InitialValue)
 		}
 	}
 
@@ -254,41 +255,41 @@ func (r *schemaRunner) runElemReverse() {
 }
 
 func (r *schemaRunner) evalIfCond() bool {
-	extra := r.current.extraData.(*ifElemExtra)
+	extra := r.current.extraData.(*leveldata.IfElemExtra)
 	result := false
-	switch extra.condKind {
+	switch extra.CondKind {
 	case "anagram":
-		result = checkAnagram(r.data, []byte(extra.stringArg))
+		result = checkAnagram(r.data, []byte(extra.StringArg))
 	case "eq":
-		result = bytes.Equal(r.data, []byte(extra.stringArg))
+		result = bytes.Equal(r.data, []byte(extra.StringArg))
 	case "substr_count":
-		result = bytes.Count(r.data, []byte(extra.stringArg)) == extra.intArg
+		result = bytes.Count(r.data, []byte(extra.StringArg)) == extra.IntArg
 	case "contains_letter":
-		result = bytes.ContainsAny(r.data, extra.stringArg)
+		result = bytes.ContainsAny(r.data, extra.StringArg)
 	case "contains_substr":
-		result = bytes.Contains(r.data, []byte(extra.stringArg))
+		result = bytes.Contains(r.data, []byte(extra.StringArg))
 	case "has_prefix":
-		result = bytes.HasPrefix(r.data, []byte(extra.stringArg))
+		result = bytes.HasPrefix(r.data, []byte(extra.StringArg))
 	case "has_suffix":
-		result = bytes.HasSuffix(r.data, []byte(extra.stringArg))
+		result = bytes.HasSuffix(r.data, []byte(extra.StringArg))
 	case "last_gt":
-		result = r.data[len(r.data)-1] > extra.stringArg[0]
+		result = r.data[len(r.data)-1] > extra.StringArg[0]
 	case "len_even":
 		result = len(r.data)%2 == 0
 	case "fnv_even":
 		result = fnvhash(r.data)%2 == 0
 	case "len_eq":
-		result = len(r.data) == extra.intArg
+		result = len(r.data) == extra.IntArg
 	case "len_lt":
-		result = len(r.data) < extra.intArg
+		result = len(r.data) < extra.IntArg
 	case "len_gt":
-		result = len(r.data) > extra.intArg
+		result = len(r.data) > extra.IntArg
 	case "unchanged":
 		result = bytes.Equal(r.data, r.input)
 	case "fixed_cond":
-		result = extra.intArg == 1
+		result = extra.IntArg == 1
 	default:
-		panic(fmt.Sprintf("unexpected %q elem_if cond kind", extra.condKind))
+		panic(fmt.Sprintf("unexpected %q elem_if cond kind", extra.CondKind))
 	}
 	return result
 }

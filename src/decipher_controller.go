@@ -3,6 +3,7 @@ package main
 import (
 	"time"
 
+	"github.com/quasilyte/decipherism-game/leveldata"
 	"github.com/quasilyte/ge"
 	"github.com/quasilyte/ge/gesignal"
 	"github.com/quasilyte/ge/input"
@@ -52,7 +53,7 @@ type decipherConfig struct {
 	terminalUpgrades terminalUpgrades
 	advancedInput    bool
 	storyMode        bool
-	levelTemplate    *schemaTemplate
+	levelTemplate    *leveldata.SchemaTemplate
 }
 
 func newDecipherController(s *gameState, config decipherConfig) *decipherController {
@@ -144,8 +145,8 @@ func (c *decipherController) Init(scene *ge.Scene) {
 		c.schemaNodes = append(c.schemaNodes, node)
 	}
 
-	for _, h := range c.config.levelTemplate.hints {
-		hintNode := newStickerNode(h.pos, h.text)
+	for _, h := range c.config.levelTemplate.Hints {
+		hintNode := newStickerNode(h.Pos, h.Text)
 		scene.AddObject(hintNode)
 		c.stickerNodes = append(c.stickerNodes, hintNode)
 	}
@@ -178,11 +179,11 @@ func (c *decipherController) Init(scene *ge.Scene) {
 
 	var branches []string
 	for _, e := range c.schema.elems {
-		info, ok := e.extraData.(*ifElemExtra)
+		info, ok := e.extraData.(*leveldata.IfElemExtra)
 		if !ok {
 			continue
 		}
-		branches = append(branches, info.condKind)
+		branches = append(branches, info.CondKind)
 	}
 	gmath.Shuffle(scene.Rand(), branches)
 	if len(branches) > 3 {

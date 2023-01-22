@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/quasilyte/decipherism-game/leveldata"
 	"github.com/quasilyte/ge/tiled"
 	"github.com/quasilyte/gmath"
 )
@@ -14,7 +15,7 @@ const (
 )
 
 type schemaBuilder struct {
-	template    *schemaTemplate
+	template    *leveldata.SchemaTemplate
 	schema      *componentSchema
 	offset      gmath.Vec
 	elemByIndex [numSchemaCols * numSchemaRows]*schemaElem
@@ -43,11 +44,14 @@ func decodeSchema(offset gmath.Vec, tileset *tiled.Tileset, data []byte) *compon
 	if err != nil {
 		panic(err)
 	}
-	t := tilemapToTemplate(tileset, m)
+	t, err := leveldata.TilemapToTemplate(tileset, m)
+	if err != nil {
+		panic(err) // Used only for builtin levels, should never panic
+	}
 	return newSchemaBuilder(offset, t).Build()
 }
 
-func newSchemaBuilder(offset gmath.Vec, t *schemaTemplate) *schemaBuilder {
+func newSchemaBuilder(offset gmath.Vec, t *leveldata.SchemaTemplate) *schemaBuilder {
 	return &schemaBuilder{
 		offset:   offset,
 		template: t,
@@ -65,8 +69,8 @@ func (b *schemaBuilder) elemShape(e *schemaElem) elemShape {
 }
 
 func (b *schemaBuilder) rowcolByPos(pos gmath.Vec) (int, int) {
-	col := int(pos.X-b.offset.X) / int(b.template.tileset.TileWidth)
-	row := int(pos.Y-b.offset.Y) / int(b.template.tileset.TileHeight)
+	col := int(pos.X-b.offset.X) / int(b.template.Tileset.TileWidth)
+	row := int(pos.Y-b.offset.Y) / int(b.template.Tileset.TileHeight)
 	return row, col
 }
 
@@ -149,23 +153,23 @@ func (b *schemaBuilder) connectElems(elem *schemaElem, minIncoming, wantOutgoing
 
 func (b *schemaBuilder) build() {
 	s := b.schema
-	s.numKeywords = b.template.numKeywords
-	s.keywords = b.template.keywords
+	s.numKeywords = b.template.NumKeywords
+	s.keywords = b.template.Keywords
 
 	elemList := make([]*schemaElem, 0, 24)
 
-	for _, t := range b.template.elems {
-		tileClassID := t.classID
+	for _, t := range b.template.Elems {
+		tileClassID := t.ClassID
 		if tileClassID == -1 {
-			tileClassID = b.template.tileset.TileByClass(t.class).Index
+			tileClassID = b.template.Tileset.TileByClass(t.Class).Index
 		}
 		elem := &schemaElem{
-			pos:         t.pos.Add(b.offset),
+			pos:         t.Pos.Add(b.offset),
 			tileClassID: tileClassID,
-			tileClass:   t.class,
-			kind:        getSchemaElemKind(t.class),
-			rotation:    t.rotation,
-			extraData:   t.extraData,
+			tileClass:   t.Class,
+			kind:        getSchemaElemKind(t.Class),
+			rotation:    t.Rotation,
+			extraData:   t.ExtraData,
 		}
 		// TODO: use a tileset metadata for that.
 		switch {

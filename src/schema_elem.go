@@ -5,6 +5,7 @@ import (
 	"math"
 	"strings"
 
+	"github.com/quasilyte/decipherism-game/leveldata"
 	"github.com/quasilyte/gmath"
 )
 
@@ -34,20 +35,6 @@ type schemaElem struct {
 	rotation gmath.Rad
 
 	extraData any
-}
-
-type angleElemExtra struct {
-	flipHorizontally bool
-}
-
-type countdownElemExtra struct {
-	initialValue int
-}
-
-type ifElemExtra struct {
-	condKind  string
-	stringArg string
-	intArg    int
 }
 
 func getElemShape(class string, pos gmath.Vec, rotation gmath.Rad, extraData any) elemShape {
@@ -82,8 +69,8 @@ func getElemShape(class string, pos gmath.Vec, rotation gmath.Rad, extraData any
 		//
 		startRotation := rotation
 		endRotation := rotation + (math.Pi / 2)
-		extra := extraData.(*angleElemExtra)
-		if extra.flipHorizontally {
+		extra := extraData.(*leveldata.AngleElemExtra)
+		if extra.FlipHorizontally {
 			startRotation += math.Pi
 		}
 		shape.inputs[0] = pos.MoveInDirection(48, startRotation-math.Pi)
