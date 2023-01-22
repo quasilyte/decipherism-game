@@ -84,14 +84,15 @@ func TilemapToTemplate(tileset *tiled.Tileset, m *tiled.Map) (*SchemaTemplate, e
 			numInputs++
 			continue
 		}
+		pos := calcObjectPos(o)
 		if t.Class == "settings" {
 			if foundSettings {
-				panic("more than one settings object?")
+				return nil, fmt.Errorf("%v: found more than one settings element", pos)
 			}
 			foundSettings = true
 			allKeywords := strings.TrimSpace(o.GetStringProp("keywords", ""))
 			if allKeywords == "" {
-				panic("settings.keywords is not set")
+				return nil, fmt.Errorf("%v: settings.keywords property is empty", pos)
 			}
 			keywordList := strings.Split(allKeywords, "\n")
 			result.NumKeywords = o.GetIntProp("num_keywords", 0)
@@ -106,7 +107,6 @@ func TilemapToTemplate(tileset *tiled.Tileset, m *tiled.Map) (*SchemaTemplate, e
 			})
 			continue
 		}
-		pos := calcObjectPos(o)
 		elem := SchemaTemplateElem{
 			Pos:      pos,
 			ClassID:  t.Index,
@@ -116,7 +116,7 @@ func TilemapToTemplate(tileset *tiled.Tileset, m *tiled.Map) (*SchemaTemplate, e
 		switch elem.Class {
 		case "angle_pipe", "special_angle_pipe":
 			if o.FlippedVertically() {
-				panic(fmt.Sprintf("%s: vertical flipping is obsolete", elem.Pos))
+				return nil, fmt.Errorf("%v: vertical flipping is obsolete", pos)
 			}
 			elem.ExtraData = &AngleElemExtra{
 				FlipHorizontally: o.FlippedHorizontally(),
@@ -141,7 +141,7 @@ func TilemapToTemplate(tileset *tiled.Tileset, m *tiled.Map) (*SchemaTemplate, e
 				IntArg:    o.GetIntProp("int_arg", 0),
 			}
 			if extra.CondKind == "" {
-				panic(fmt.Sprintf("elem_if with empty cond_kind"))
+				return nil, fmt.Errorf("%v: elem_if cond property is empty", pos)
 			}
 			elem.ExtraData = extra
 		}
