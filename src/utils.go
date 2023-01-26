@@ -25,13 +25,15 @@ func fnvhash(b []byte) uint64 {
 func volumeMultiplier(level int) float64 {
 	switch level {
 	case 1:
-		return 0.15
+		return 0.05
 	case 2:
-		return 0.35
+		return 0.10
 	case 3:
-		return 0.7
+		return 0.3
 	case 4:
-		return 1
+		return 0.55
+	case 5:
+		return 0.8
 	default:
 		return 0
 	}

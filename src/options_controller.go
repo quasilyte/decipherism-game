@@ -49,7 +49,7 @@ func (c *optionsController) Init(scene *ge.Scene) {
 		musicToggle := uiRoot.NewButton(optionsButtonStyle.Resized(buttonWidth, 80))
 		bgroup.AddButton(musicToggle)
 		var musicToggleValue gmath.Slider
-		musicToggleValue.SetBounds(0, 4)
+		musicToggleValue.SetBounds(0, 5)
 		musicToggleValue.TrySetValue(options.MusicVolumeLevel)
 		musicToggle.Text = "music volume: " + strconv.Itoa(options.MusicVolumeLevel)
 		musicToggle.Pos.Offset = offset
@@ -73,7 +73,7 @@ func (c *optionsController) Init(scene *ge.Scene) {
 		effectToggle := uiRoot.NewButton(optionsButtonStyle.Resized(buttonWidth, 80))
 		bgroup.AddButton(effectToggle)
 		var effectToggleValue gmath.Slider
-		effectToggleValue.SetBounds(0, 4)
+		effectToggleValue.SetBounds(0, 5)
 		effectToggleValue.TrySetValue(options.EffectsVolumeLevel)
 		effectToggle.Text = "effects volume: " + strconv.Itoa(options.EffectsVolumeLevel)
 		effectToggle.Pos.Offset = offset
