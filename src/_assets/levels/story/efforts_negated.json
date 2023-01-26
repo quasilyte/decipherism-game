@@ -46,7 +46,7 @@
                         {
                          "name":"num_keywords",
                          "type":"int",
-                         "value":3
+                         "value":2
                         }],
                  "rotation":0,
                  "visible":true,
