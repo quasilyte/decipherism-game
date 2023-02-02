@@ -3,8 +3,8 @@ package main
 import (
 	"strings"
 
+	resource "github.com/quasilyte/ebitengine-resource"
 	"github.com/quasilyte/ge"
-	"github.com/quasilyte/ge/resource"
 )
 
 func prepareAssets(ctx *ge.Context) {
@@ -25,10 +25,10 @@ func loadLevelsData(ctx *ge.Context, idSeq resource.RawID, dirname string) resou
 			name: shortName,
 			id:   idSeq,
 		}
-		ctx.Loader.RawRegistry.Set(idSeq, resource.Raw{
+		ctx.Loader.RawRegistry.Set(idSeq, resource.RawInfo{
 			Path: dirname + "/" + f.Name(),
 		})
-		ctx.Loader.PreloadRaw(idSeq)
+		ctx.Loader.LoadRaw(idSeq)
 		idSeq++
 	}
 	return idSeq

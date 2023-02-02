@@ -53,4 +53,11 @@ package main
 // -- New "custom simulations" mode
 // > Content modifications:
 // -- Some balance changes
-const buildVersion = "6"
+//
+// Build 7:
+// > UX:
+// -- Can now type in letters while holding "shift" (also fixes capslock issue)
+// -- Use 'keyname' notation instead [keyname] inside results screen (more readable)
+// > Other:
+// -- Improved custom levels selection screen
+const buildVersion = "7"

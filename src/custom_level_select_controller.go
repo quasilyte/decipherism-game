@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -24,6 +25,8 @@ type customLevelSelectController struct {
 	levelSlider  gmath.Slider
 	allFilenames []string
 	levelButtons []*levelButton
+
+	totalCounter *ge.Label
 }
 
 type levelButton struct {
@@ -119,6 +122,17 @@ func (c *customLevelSelectController) Init(scene *ge.Scene) {
 		c.updateSelectionPage()
 	})
 	scene.AddObject(scrollNextButton)
+
+	c.totalCounter = scene.NewLabel(FontLCDSmall)
+	c.totalCounter.ColorScale.SetColor(defaultLCDColor)
+	c.totalCounter.Width = buttonWidth
+	c.totalCounter.Height = 80
+	c.totalCounter.Pos.Offset = offset
+	c.totalCounter.AlignHorizontal = ge.AlignHorizontalCenter
+	c.totalCounter.AlignVertical = ge.AlignVerticalCenter
+	c.totalCounter.Text = fmt.Sprintf("%d levels", len(allFilenames))
+	scene.AddGraphics(c.totalCounter)
+
 	offset.Y += 128
 
 	backButtonWidth := 480.0
@@ -162,7 +176,11 @@ func (c *customLevelSelectController) updateSelectionPage() {
 		filename := c.allFilenames[b.fileIndex]
 		name := strings.TrimSuffix(filepath.Base(filename), ".json")
 		name = strings.ReplaceAll(name, "_", " ")
-		b.node.Text = strconv.Itoa(b.fileIndex+1) + ". " + name
+		labelText := strconv.Itoa(b.fileIndex+1) + ". " + name
+		if len(labelText) > 26 {
+			labelText = labelText[:26] + "..."
+		}
+		b.node.Text = labelText
 	}
 }
 
@@ -174,7 +192,7 @@ func (c *customLevelSelectController) scanCustomLevels() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	tileset, err := tiled.UnmarshalTileset(c.scene.LoadRaw(RawComponentSchemaTilesetJSON))
+	tileset, err := tiled.UnmarshalTileset(c.scene.LoadRaw(RawComponentSchemaTilesetJSON).Data)
 	if err != nil {
 		panic(err)
 	}
@@ -194,6 +212,8 @@ func (c *customLevelSelectController) scanCustomLevels() ([]string, error) {
 		}
 		result = append(result, fullName)
 	}
+
+	sort.Strings(result)
 
 	return result, nil
 }

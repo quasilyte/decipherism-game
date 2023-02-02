@@ -25,8 +25,12 @@ github.com/jfreymuth/oggvorbis v1.0.4/go.mod h1:1U4pqWmghcoVsCJJ4fRBKv9peUJMBHix
 github.com/jfreymuth/vorbis v1.0.2 h1:m1xH6+ZI4thH927pgKD8JOH4eaGRm18rEE9/0WKjvNE=
 github.com/jfreymuth/vorbis v1.0.2/go.mod h1:DoftRo4AznKnShRl1GxiTFCseHr4zR9BN3TWXyuzrqQ=
 github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8/go.mod h1:HKlIX3XHQyzLZPlr7++PzdhaXEj94dEiJgZDTsxEqUI=
+github.com/quasilyte/ebitengine-resource v0.5.1-0.20230131121810-c18be064e3ae h1:cZxrlvZ9WoizDbqQUka7NCfPCNkPaqyIewyo+vNmgSs=
+github.com/quasilyte/ebitengine-resource v0.5.1-0.20230131121810-c18be064e3ae/go.mod h1:PEj32KsbbcgeSzAYQY5KspbImb/ucvJXoBgRMUrtBAQ=
 github.com/quasilyte/ge v0.0.0-20230120192653-576304e69bfe h1:IxxcQ0EDnDjKnxK93OFOtquxKhASTH1H7IH9tqf/E/8=
 github.com/quasilyte/ge v0.0.0-20230120192653-576304e69bfe/go.mod h1:4sdTKdT+7D0/bOjiGtKxii3eyknzCTn7NjUs3+BKok0=
+github.com/quasilyte/ge v0.0.0-20230202151823-9fbdf6e7770e h1:SZ7W+V0zkORTFSlQJoNmBtjLz7aMX4OBvlUZS43yIH0=
+github.com/quasilyte/ge v0.0.0-20230202151823-9fbdf6e7770e/go.mod h1:D3vvBn8E/I5gG3suf17tO4fguOiZ9L+MkL4lttR0DPE=
 github.com/quasilyte/gmath v0.0.0-20221217210116-fba37a2e15c7 h1:mvIS9aGirkzuYmHHNWAP6sLRoA5VFaIzMoFdPmqgPdY=
 github.com/quasilyte/gmath v0.0.0-20221217210116-fba37a2e15c7/go.mod h1:EbI+KMbALSVE2s0YFOQpR4uj66zBh9ter5P4CBMSuvA=
 github.com/yuin/goldmark v1.4.0/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1Zlc8k=

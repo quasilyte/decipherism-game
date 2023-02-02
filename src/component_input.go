@@ -1,6 +1,8 @@
 package main
 
 import (
+	"unicode"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/quasilyte/ge"
 	"github.com/quasilyte/ge/gesignal"
@@ -138,7 +140,8 @@ func (i *componentInput) Update(delta float64) {
 		if len(i.pressedRunes) != 0 {
 			changed := false
 			for _, r := range i.pressedRunes {
-				if r >= 'a' && r <= 'z' {
+				if r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z' {
+					r = unicode.ToLower(r)
 					if i.cursorPos == -1 {
 						// Append the char to the end of the text.
 						i.text = append(i.text, byte(r))

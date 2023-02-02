@@ -58,10 +58,10 @@ func (c *resultsController) Init(scene *ge.Scene) {
 	if !xslices.Equal(c.gameState.content.chapters, newContent.chapters) {
 		textLines = append(textLines, "\n> new blocks are accessible")
 	}
-	textLines = append(textLines, "\npress [enter] to continue")
+	textLines = append(textLines, "\npress 'enter' to continue")
 	if len(newManualPages) != 0 {
 		c.newManualPage = newManualPages[0]
-		textLines = append(textLines, "\npress [ctrl]+[enter] to see new manual pages")
+		textLines = append(textLines, "\npress 'ctrl+enter' to see new manual pages")
 	}
 
 	l := scene.NewLabel(FontLCDNormal)

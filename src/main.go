@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	resource "github.com/quasilyte/ebitengine-resource"
 	"github.com/quasilyte/ge"
 	"github.com/quasilyte/ge/input"
-	"github.com/quasilyte/ge/resource"
 
 	_ "image/png"
 )
@@ -239,7 +239,7 @@ func main() {
 	}
 
 	// Associate audio resources.
-	audioResources := map[resource.AudioID]resource.Audio{
+	audioResources := map[resource.AudioID]resource.AudioInfo{
 		AudioDecodingSuccess: {Path: "audio/decoding_success.wav", Volume: -0.4},
 		AudioSecretUnlocked:  {Path: "audio/secret_unlocked.wav", Volume: -0.35},
 		AudioCollision:       {Path: "audio/collision.wav", Volume: -0.2},
@@ -248,11 +248,11 @@ func main() {
 	}
 	for id, res := range audioResources {
 		ctx.Loader.AudioRegistry.Set(id, res)
-		ctx.Loader.PreloadAudio(id)
+		ctx.Loader.LoadAudio(id)
 	}
 
 	// Associate font resources.
-	fontResources := map[resource.FontID]resource.Font{
+	fontResources := map[resource.FontID]resource.FontInfo{
 		FontLCDTiny:          {Path: "font.ttf", Size: 20},
 		FontLCDSmall:         {Path: "font.ttf", Size: 32},
 		FontLCDNormal:        {Path: "font.ttf", Size: 40},
@@ -262,7 +262,7 @@ func main() {
 	}
 	for id, res := range fontResources {
 		ctx.Loader.FontRegistry.Set(id, res)
-		ctx.Loader.PreloadFont(id)
+		ctx.Loader.LoadFont(id)
 	}
 
 	// Associate image resources.
@@ -366,18 +366,18 @@ func main() {
 	}
 	for id, res := range imageResources {
 		ctx.Loader.ImageRegistry.Set(id, res)
-		ctx.Loader.PreloadImage(id)
+		ctx.Loader.LoadImage(id)
 	}
 
 	prepareAssets(ctx)
 
 	// Associate other resources.
-	rawResources := map[resource.RawID]resource.Raw{
+	rawResources := map[resource.RawID]resource.RawInfo{
 		RawComponentSchemaTilesetJSON: {Path: "schemas.tsj"},
 	}
 	for id, res := range rawResources {
 		ctx.Loader.RawRegistry.Set(id, res)
-		ctx.Loader.PreloadRaw(id)
+		ctx.Loader.LoadRaw(id)
 	}
 
 	// Associate shader resources.
@@ -387,7 +387,7 @@ func main() {
 	}
 	for id, res := range shaderResources {
 		ctx.Loader.ShaderRegistry.Set(id, res)
-		ctx.Loader.PreloadShader(id)
+		ctx.Loader.LoadShader(id)
 	}
 
 	ctx.LoadGameData("save", &state.data)

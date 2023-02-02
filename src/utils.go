@@ -9,7 +9,7 @@ import (
 )
 
 func loadLevelTemplate(scene *ge.Scene, levelData []byte) (*leveldata.SchemaTemplate, error) {
-	tileset, err := tiled.UnmarshalTileset(scene.LoadRaw(RawComponentSchemaTilesetJSON))
+	tileset, err := tiled.UnmarshalTileset(scene.LoadRaw(RawComponentSchemaTilesetJSON).Data)
 	if err != nil {
 		panic(err)
 	}

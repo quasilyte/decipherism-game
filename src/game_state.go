@@ -3,8 +3,8 @@ package main
 import (
 	"time"
 
+	resource "github.com/quasilyte/ebitengine-resource"
 	"github.com/quasilyte/ge/input"
-	"github.com/quasilyte/ge/resource"
 	"github.com/quasilyte/ge/xslices"
 	"github.com/quasilyte/gmath"
 )

@@ -49,7 +49,7 @@ func (c *levelSelectController) Init(scene *ge.Scene) {
 	var encodedKeyword string
 	c.secretKeywords = make([]string, len(chapter.levels))
 	if !chapter.IsBonus() {
-		tileset, err := tiled.UnmarshalTileset(scene.LoadRaw(RawComponentSchemaTilesetJSON))
+		tileset, err := tiled.UnmarshalTileset(scene.LoadRaw(RawComponentSchemaTilesetJSON).Data)
 		if err != nil {
 			panic(err)
 		}
@@ -57,7 +57,7 @@ func (c *levelSelectController) Init(scene *ge.Scene) {
 		inputData := []byte(chapter.keyword)
 		for i, levelName := range chapter.levels {
 			level := theStoryModeMap.levels[levelName]
-			levelData := scene.LoadRaw(level.id)
+			levelData := scene.LoadRaw(level.id).Data
 			schema := leveldata.DecodeSchema(gmath.Vec{}, tileset, levelData)
 			completionData := c.gameState.GetLevelCompletionData(levelName)
 			if completionData != nil && completionData.SecretKeyword {
@@ -118,7 +118,7 @@ func (c *levelSelectController) initUI(offset gmath.Vec) {
 				storyMode:     true,
 			}
 			c.initDecipherConfig(content, &config)
-			levelTemplate, err := loadLevelTemplate(c.scene, c.scene.LoadRaw(c.gameState.level.id))
+			levelTemplate, err := loadLevelTemplate(c.scene, c.scene.LoadRaw(c.gameState.level.id).Data)
 			if err != nil {
 				panic(err) // Builtin level should never contain any errors
 			}
